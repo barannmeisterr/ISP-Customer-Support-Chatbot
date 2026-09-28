@@ -1,0 +1,2028 @@
+{
+  "categories": [
+    {
+      "id": "internet_yok",
+      "name": "İnternet Yok / Bağlantı Sağlanamıyor",
+
+      "intent_triggers": [
+        "internet yok",
+        "internet bağlantısı yok",
+        "internete giremiyorum",
+        "internet erişimi yok",
+        "wifi var internet yok",
+        "internet olmadan bağlı",
+        "ünlem işareti var",
+        "Ünlem gösteriyo",
+        "Ünlem gösteriyor",
+        "unlem gösteriyor",
+        "İnternet Yok / Bağlantı Sağlanamıyor Problemi",
+        "Dün öğleden beri internetim yok",
+        "İnternetimi kullanamıyorum dönüş yaparsanız sevinirim ders izlemem gerekiyor",
+        "internet yok wifi var ünlem işareti çıkıyor",
+        "Dün akşamdan beri internetim yok. Acil olarak konu ile ilgilenir misiniz?",
+        "Dün akşam 19:30 sularında internet bağlantım gitti ve halen gelmedi. Ara ara 15 20 dakikalık kesintiler yaşanıyordu ama bu sefer 12 saatin üstünde",
+        "İnternet tamamen kesildi WiFi de çıkmıyor bile",
+        "İnternet çok sık kesiliyor",
+        "wifi kayboldu redlineda bişeyler değiştirdim ondan olur mu",
+        "wifi kayboldu",
+        "İki gündür kullanamıyoruz.Simgesi gözüküyor ama işlem yok",
+        "Yaklasik yarim saattir internet yok ayrica surekli kesilmeler oluyor bu sekilde insallah gerekeni yaparsiniz",
+        "İnternet kesik",
+        "ağa bağlanmıyor",
+        "İnt e giremiyorum yardımcı olurmusunuz sorun nedir ?",
+        "Merhaba, internet bağlantısı yok",
+        "Merhaba. İnternetimiz yok",
+        "İnternetimiz şuanda yok",
+        "internet hizmeti alamıyorum",
+        "İnternete giremiyorum",
+        "İnternet 3 gündür kesintiye uğruyor. Şuan yok",
+        "Tüm gün internet kesintisi yaşadık ve hala da yok daha öncesi de internetin çekim gücü çok yavaş",
+        "İnternet geceleri olmuyor ve çekmiyor",
+        "internet bağlantım yok yardımcı olabilir misiniz",
+        "İnternetim 4 5 günden beri yok",
+        "Evimde şuanda internet çekmiyor, bilgi alabilir miyim",
+        "Her gece irternet kesiliyor ve gece boyunca gelmiyor bunun çözülmesini istiyoruz"
+      ],
+
+      "tree": {
+        "root": "node_power_check",
+
+        "nodes": {
+          "node_power_check": {
+            "type": "question",
+            "text": "Modeminizin tüm ışıkları yanıyor mu? (Power/DSL/WAN/Internet)",
+            "branches": [
+              { "match": ["evet modemimin tüm ışıkları yanıyor"], "next": "node_dsl_check" },
+              { "match": ["hayır modemimin tüm ışıkları yanmıyor"], "next": "node_power_issue_after" },
+              { "default": true, "next": "node_dsl_check" }
+            ]
+          },
+
+          "node_power_issue_after": {
+            "type": "question",
+            "text": "Lütfen modemin güç kablosunun doğru takılı olduğundan ve farklı bir prizde denendiğinden emin olun. Modem şimdi çalışıyor mu?",
+            "branches": [
+              { "match": ["evet"], "next": "node_dsl_check" },
+              { "match": ["hayır"], "next": "node_modem_power_open_ticket_request" }
+            ]
+          },
+          "node_modem_power_open_ticket_request": {
+            "type": "question",
+            "text": "Eğer modem güç almıyorsa ve çalışmıyorsa cihazınız arızalı olabilir. İsterseniz teknik servis yönlendirebilirim. Arıza kaydı açmak istiyor musunuz?",
+
+            "branches": [
+              { "match": ["Evet"], "next": "node_saha_open_ariza_kaydi_by_input" },
+              { "match": ["Hayır"], "next": "node_saha_not_need" },
+              { "default": true, "next": "node_saha_not_need" }
+            ]
+          },
+
+
+
+          "node_dsl_check": {
+            "type": "question",
+            "text": "Modeminizin üzerindeki DSL / WAN ışığı sabit mi yanıyor mu yoksa yanıp sönüyor veya hiç yanmıyor mu?",
+            "branches": [
+              { "match": ["sabit yanıyor"], "next": "node_internet_light" },
+              { "match": ["yanıp sönüyor/yanmıyor/kırmızı"], "next": "node_dsl_issue_after" },
+              { "default": true, "next": "node_internet_light" }
+            ]
+          },
+
+
+
+          "node_dsl_issue_after": {
+            "type": "question",
+            "text": "DSL/WAN ışığında geçici bir sorun oluşmus olabilir. Modemi kapatıp 30 saniye bekleyip tekrar açar mısınız? DSL/WAN ışığı düzeldi mi?",
+            "branches": [
+              { "match": ["evet"], "next": "node_internet_light" },
+              { "match": ["hayır"], "next": "node_internet_dsl_light_problem_open_ticket_request" }
+            ]
+          },
+
+
+          "node_internet_dsl_light_problem_open_ticket_request": {
+            "type": "question",
+            "text": "DSL/WAN ışığınız yanmıyorsa modeminizde arıza meydana gelmiş olup saha ekibi gerekebilir. Dilerseniz teknik ekip yönlendirebilirim. Arıza kaydı açmak istiyor musunuz?",
+            "branches": [
+              { "match": ["Evet"], "next": "node_saha_open_ariza_kaydi_by_input" },
+              { "match": ["Hayır"], "next": "node_saha_not_need" },
+              { "default": true, "next": "node_saha_not_need" }
+            ]
+          },
+
+
+          "node_internet_light": {
+            "type": "question",
+            "text": "Modeminizin üzerindeki 'Internet' ışığı yanıyor mu?",
+            "branches": [
+              { "match": ["evet"], "next": "node_wifi_check" },
+              { "match": ["hayır yanmıyor / hala kırmızı"], "next": "node_ppp_after" }
+            ]
+          },
+          "node_ppp_after": {
+            "type": "question",
+            "text": "Internet ışığı yanmıyorsa PPP (kullanıcı adı/şifre) oturumu kurulamamış olabilir. Modemi yeniden başlatmanızı rica ederim. Yeniden başlatma sonrası Internet ışığı yandı mı?",
+            "branches": [
+              { "match": ["evet"], "next": "node_wifi_check" },
+              { "match": ["hayır"], "next": "node_ppp_credentials" }
+            ]
+          },
+          "node_ppp_credentials": {
+            "type": "question",
+            "text": "Kullanıcı adı veya şifre yanlış olabilir. PPP kontrolü için abonelik numaranızı paylaşır mısınız?",
+            "allow_free_input": true,
+            "next": "node_ppp_check"
+          },
+
+          "node_ppp_check": {
+            "type": "action",
+            "auto_next": true,
+            "action": "check_ppp_session",
+            "text": "Abonelik bilgilerinizi kontrol ediyorum...",
+            "next_map": {
+              "online": "final_ppp_online",
+              "offline": "final_ppp_offline",
+              "not_found": "final_ppp_unknown_user"
+            }
+          },
+          "node_saha_open_ariza_kaydi_by_input": {
+            "type": "question",
+            "text": "Arıza kaydınızı en doğru şekilde oluşturabilmem için lütfen yaşadığınız problemi detaylıca yazar mısınız?",
+            "allow_free_input": true,
+            "next": "node_saha_ariza_check"
+          },
+
+          "node_saha_ariza_check": {
+            "type": "action",
+            "auto_next": true,
+            "action": "check_saha_ariza_session",
+            "text": "Arıza kaydınızı oluşturuyorum...",
+            "next_map": {
+              "ticked_created": "final_saha_ticked_creation_success",
+              "ticked_not_created": "final_saha_ticked_creation_failed"
+            }
+          },
+          "node_wifi_check": {
+            "type": "question",
+            "text": "Cihazınız WiFi’a bağlanıyor ama internet yok uyarısı mı veriyor?",
+            "branches": [
+              { "match": ["evet"], "next": "node_ip_after" },
+              { "match": ["hayır"], "next": "node_wifi_after" },
+              { "default": true, "next": "node_ip_after" }
+            ]
+          },
+
+
+
+          "node_ip_after": {
+            "type": "question",
+            "text": "Bu durum IP alınamaması veya DNS yönlendirme hatası olabilir. Modeminizi yeniden başlatın, WiFi ağını unutup tekrar bağlanın. Bu işlemleri yaptıktan sonra erişim sağlandı mı?",
+            "branches": [
+              { "match": ["evet"], "next": "final_solved" },
+              { "match": ["hayır"], "next": "node_need_subscriber" }
+            ]
+          },
+
+
+
+          "node_wifi_after": {
+            "type": "question",
+            "text": "Cihazınız WiFi'a hiç bağlanmıyorsa kablosuz şifre/kanal ayarlarında sorun olabilir.Cihaza yakınlaşıp tekrar denediğinizde bağlanma oluyor mu?",
+            "branches": [
+              { "match": ["evet"], "next": "final_solved" },
+              { "match": ["hayır"], "next": "node_need_subscriber" }
+            ]
+          },
+
+          "node_need_subscriber": {
+            "type": "question",
+            "text": "Hat detaylarını ve anlık bağlantı durumunuzu kontrol edebilmem için abonelik numaranızı paylaşır mısınız?",
+            "allow_free_input": true,
+            "next": "node_connection_check"
+          },
+          "node_connection_check": {
+            "type": "action",
+            "auto_next": true,
+            "action": "check_connection_session",
+            "text": "Abonelik bilgilerinizi kontrol ediyorum...",
+            "next_map": {
+              "online": "node_create_ariza_kaydi_after_connection_status",
+              "offline": "node_create_ariza_kaydi_after_connection_status",
+              "user_connection_data_not_found": "final_connection_data_not_found",
+              "user_not_found": "final_connection_unknown_user"
+            }
+          },
+          "node_create_ariza_kaydi_after_connection_status": {
+            "type": "question",
+            "text": "Eğer hala probleminiz devam ediyorsa arıza kaydı oluşturabilirsiniz? Arıza kaydı oluşturmak istiyor musunuz ?",
+            "branches": [
+              { "match": ["Evet"], "next": "node_saha_open_ariza_kaydi_by_input" },
+              { "match": ["Hayır"], "next": "node_saha_not_need" }
+            ]
+          },
+
+
+          "final_connection_online": {
+            "type": "final",
+            "text": "Hat detaylarınızı ve bağlantı durumunuzu kontrol ettim.Şuan internete bağlı olarak gözüküyorsunuz.Son bağlantı oturumunuzun başlangıç zamanı ve durumunuz bu şekildedir: "
+          },
+          "final_connection_offline": {
+            "type": "final",
+            "text": "Hat detaylarınızı ve bağlantı durumunuzu kontrol ettim.Şuan internet bağlantınız kopmuş olarak gözüküyor.Son bağlantı kopma zamanı ve durumunuz bu şekildedir: "
+          },
+          "final_connection_data_not_found": {
+            "type": "final",
+            "text": "Yapılan kontrollere göre bağlantı bilgileriniz bulunamamıştır.Teknik servis ile iletişime geçiniz. "
+          },
+          "final_connection_unknown_user": {
+            "type": "final",
+            "text": "Bu abone numarasına ait sistemde kayıt bulunamadığı için bu işlemi gerçekleştirmek için yetkiniz bulunmamaktadır."
+          },
+          "final_wait_internet": {
+            "type": "final",
+            "text": "Bilgiyi aldıktan sonra hattınızı sistem üzerinden kontrol edeceğim."
+          },
+
+          "final_solved": {
+            "type": "final",
+            "text": "Harika! Sorun çözülmüş görünüyor, iyi kullanımlar."
+          },
+          "final_saha_ticked_creation_success": {
+            "type": "final",
+            "text": "Talebiniz üzere arıza kaydınızı oluşturdum.Oluşturulan arıza kaydınız bu şekildedir: "
+          },
+          "final_saha_ticked_creation_failed": {
+            "type": "final",
+            "text": "Arıza kaydı oluşturulurken beklenmeyen bir hata oluştu.Lütfen daha sonra tekrar deneyiniz."
+          },
+          "node_saha_not_need": {
+            "type": "final",
+            "text": "Değerli müşterimiz,talebiniz üzerine arıza kaydı oluşturulmamıştır."
+          },
+
+          "final_saha_gerekli": {
+            "type": "final",
+            "text": "DSL/WAN ışığı yanmıyorsa saha ekibi gerekebilir. Dilerseniz teknik ekip yönlendirebilirim."
+          },
+
+          "final_ppp_online": {
+            "type": "final",
+            "text": "Görünen o ki PPP oturumunuz aktif. İnternet ışığı yanmıyorsa modem üzerindeki DSL/ONT tarafında bir sorun olabilir veya kullanıcı adınızı veya şifrenizi yanlış giriyor olabilirsiniz.Lütfen kullanıcı adınızı ve şifrenizi bu şekilde giriniz: "
+          },
+          "final_ppp_offline": {
+            "type": "final",
+            "text": "Görünen o ki PPP oturumunuz olusturulmamış. PPP oturumu oluşturduktan sonra lütfen tekrar deneyiniz."
+          },
+          "final_ppp_unknown_user": {
+            "type": "final",
+            "text": "Bu abone numarasına ait kayıt bulunamadığı için bu işlemi gerçekleştirmek için yetkiniz bulunmamaktadır."
+          }
+        }
+      }
+    },
+
+    {
+      "id": "sinyal_cekim",
+      "name": "Sinyal / Çekim Problemi",
+
+      "intent_triggers": [
+        "çekmiyor",
+        "internet çekmiyor",
+        "wifi çekmiyor",
+        "sinyal yok",
+        "çekim gücü zayıf",
+        "yan odada çekmiyor",
+        "İnternet çekim gücü çok az",
+        "sinyalim yok",
+        "wifi çok az çekiyor",
+        "wifi az çekiyor",
+        "sinyal zayıf",
+        "sinyal düşük",
+        "İnternet Sinyalinin Az Çekmesi Problemi",
+        "sinyal az",
+        "sinyal çok düşük",
+        "sinyal çok az",
+        "sinyalim düşük",
+        "sinyalim az",
+        "sinyalim çok düşük",
+        "sinyalim çok az",
+        "sinyalim zayıf",
+        "sinyalim çok zayıf",
+        "İnternet sinyali yok",
+        "internet sinyalim yok",
+        "İnternet sinyali zayıf",
+        "internet sinyalim zayıf",
+        "sinyalim yok veya çok zayıf artık çalışamıyorum abone numaram: 1000071828 2 haftadır sorunu bildirdim ve hiçbir şey yapmadınız"
+      ],
+
+      "tree": {
+        "root": "node_location_check",
+
+        "nodes": {
+          "node_location_check": {
+            "type": "question",
+            "text": "Sinyal problemi tüm evde mi, yoksa sadece bazı odalarda mı oluyor?",
+            "branches": [
+              { "match": ["Sadece bazı odalarda oluyor"], "next": "node_retest_after_move" },
+              { "match": ["Tüm evde oluyor"], "next": "node_retest_after_move" },
+              { "default": true, "next": "node_retest_after_move" }
+            ]
+          },
+
+
+
+          "node_retest_after_move": {
+            "type": "question",
+            "text": "Modeminizin konumu çekim gücünü doğrudan etkiler. Lütfen modemi:\n- Evin merkezi bir noktasına,\n- Yerden en az 1 metre yükseğe,\n- Duvar kenarı, metal yüzey, akvaryum, mikrodalga yanından uzak bir yere konumlandırın. Modemin konumunu değiştirdikten sonra çekimde iyileşme oldu mu?",
+            "branches": [
+              { "match": ["evet iyileşme oldu"], "next": "final_solved" },
+              { "match": ["hayır hala sorun devam ediyor"], "next": "node_interference_check" },
+              { "default": true, "next": "node_interference_check" }
+            ]
+          },
+
+          "node_interference_check": {
+            "type": "question",
+            "text": "Modeminizin yakınında sinyali etkileyebilecek cihazlar örneğin Bluetooth hoparlör, kablosuz kamera, kalın beton duvar, mikrodalga fırın vb. cihazlar var mı?",
+            "branches": [
+              { "match": ["var"], "next": "node_interference_retest" },
+              { "match": ["yok"], "next": "node_24ghz_5ghz" },
+              { "default": true, "next": "node_24ghz_5ghz" }
+            ]
+          },
+
+
+
+          "node_interference_retest": {
+            "type": "question",
+            "text": "Lütfen sinyali bozabilecek cihazları Modeminizden en az 2-3 metre uzaklaştırın. WiFi sinyali elektromanyetik parazitten hızla etkilenebilir. Parazit kaynaklarını uzaklaştırdıktan sonra çekimde düzelme oldu mu?",
+            "branches": [
+              { "match": ["evet"], "next": "final_solved" },
+              { "match": ["hayır"], "next": "node_24ghz_5ghz" }
+            ]
+          },
+
+          "node_24ghz_5ghz": {
+            "type": "question",
+            "text": "Hangi WiFi ağına bağlısınız? 2.4 GHz mi yoksa 5 GHz mi?",
+            "branches": [
+              { "match": ["5ghz"], "next": "node_5ghz_issue" },
+              { "match": ["2.4 ghz"], "next": "node_24ghz_issue" },
+              { "default": true, "next": "node_band_unknown" }
+            ]
+          },
+
+          "node_5ghz_issue": {
+            "type": "question",
+            "text": "5 GHz yüksek hız sağlar ancak duvarlardan kolay etkilenir. Modeme uzak odalarda çekmeme problemi normaldir. Bu durumda çözüm seçenekleri:\n- 2.4 GHz ağına bağlanmak (daha geniş kapsama alanı)\n- Mesh/repeater cihazı kullanmak.Eviniz 120 m²’den büyük mü veya modem ile zayıf çekim olan oda arasında birden fazla duvar/kat var mı?",
+            "branches": [
+              { "match": ["evet"], "next": "node_external_unit_check" },
+              { "match": ["hayır"], "next": "node_external_unit_check" },
+              { "default": true, "next": "node_external_unit_check" }
+            ]
+
+          },
+          "node_24ghz_issue": {
+            "type": "question",
+            "text": "2.4 GHz geniş kapsama alanı sağlar fakat yoğun trafikte hız düşebilir.Eviniz 120 m²’den büyük mü veya modem ile zayıf çekim olan oda arasında birden fazla duvar/kat var mı?",
+            "branches": [
+              { "match": ["evet"], "next": "node_external_unit_check" },
+              { "match": ["hayır"], "next": "node_external_unit_check" },
+              { "default": true, "next": "node_external_unit_check" }
+            ]
+          },
+
+          "node_band_unknown": {
+            "type": "question",
+            "text": "Modeminizde hem 2.4 GHz hem 5 GHz ağı olabilir. Çekim zayıfsa 2.4 GHz genellikle daha stabil çalışır.Eviniz 120 m²’den büyük mü veya modem ile zayıf çekim olan oda arasında birden fazla duvar/kat var mı?",
+            "branches": [
+              { "match": ["evet"], "next": "node_external_unit_check" },
+              { "match": ["hayır"], "next": "node_external_unit_check" },
+              { "default": true, "next": "node_external_unit_check" }
+            ]
+          },
+
+          "node_external_unit_check": {
+            "type": "question",
+            "text": "Bu durumda mesh sistem veya repeater kullanmanız önerilir. Bu cihazlar kapsama alanını genişleterek çekim sorununu tamamen çözer. Sinyal problemi kablolu bağlantıda da (Ethernet ile bağlanınca) yaşanıyor mu?",
+            "branches": [
+              { "match": ["evet"], "next": "node_external_unit_ticket_request" },
+              { "match": ["hayır"], "next": "node_wifi_specific" },
+              { "default": true, "next": "node_wifi_specific" }
+            ]
+          },
+
+          "node_wifi_specific": {
+            "type": "question",
+            "text": "Sorun tüm cihazlarda mı oluyor yoksa sadece belirli bir cihazda mı?",
+            "branches": [
+              { "match": ["Belirli bir cihazda"], "next": "final_solved_or_not" },
+              { "match": ["Tüm Cihazlarda"], "next": "node_saha_open_ticket_request" },
+              { "default": true, "next": "final_solved_or_not" }
+            ]
+          },
+
+          "node_external_unit_ticket_request": {
+            "type": "question",
+            "text": "Kablolu bağlantıda da sorun varsa hat veya dış ünite kaynaklı olabilir. Teknik ekip gerekebilir. Arıza kaydı açmak istiyor musunuz?",
+
+            "branches": [
+              { "match": ["Evet"], "next": "node_saha_open_ariza_kaydi_by_input" },
+              { "match": ["Hayır"], "next": "node_saha_not_need" },
+              { "default": true, "next": "node_saha_not_need" }
+            ]
+          },
+
+
+
+          "node_saha_open_ticket_request": {
+            "type": "question",
+            "text": "Sorun tüm cihazlarda ve ev geneline yayılıyorsa dış ünite, anten veya kablo hattında zayıflama olabilir. Teknik ekip yönlendirebilirim. Arıza kaydı açmak istiyor musunuz?",
+
+            "branches": [
+              { "match": ["Evet"], "next": "node_saha_open_ariza_kaydi_by_input" },
+              { "match": ["Hayır"], "next": "node_saha_not_need" },
+              { "default": true, "next": "node_saha_not_need" }
+            ]
+          },
+          "node_saha_open_ariza_kaydi_by_input": {
+            "type": "question",
+            "text": "Arıza kaydınızı en doğru şekilde oluşturabilmem için lütfen yaşadığınız problemi detaylıca yazar mısınız?",
+            "allow_free_input": true,
+            "next": "node_saha_ariza_check"
+          },
+
+          "node_saha_ariza_check": {
+            "type": "action",
+            "auto_next": true,
+            "action": "check_saha_ariza_session",
+            "text": "Arıza kaydınızı oluşturuyorum...",
+            "next_map": {
+              "ticked_created": "final_saha_ticked_creation_success",
+              "ticked_not_created": "final_saha_ticked_creation_failed"
+            }
+          },
+          "final_saha_ticked_creation_success": {
+            "type": "final",
+            "text": "Talebiniz üzere arıza kaydınızı oluşturdum.Oluşturulan arıza kaydınız bu şekildedir: "
+          },
+          "final_saha_ticked_creation_failed": {
+            "type": "final",
+            "text": "Arıza kaydı oluşturulurken beklenmeyen bir hata oluştu.Lütfen daha sonra tekrar deneyiniz."
+          },
+
+          "node_saha_not_need": {
+            "type": "final",
+            "text": "Talebiniz üzere arıza kaydınızı oluşturmuyorum.Sorun devam ederse tekrar yazabilirsiniz."
+          },
+
+          "final_solved_or_not": {
+            "type": "final",
+            "text": "Bu durumda sorun cihaza özeldir. Lütfen:\n- WiFi ağını unutup yeniden bağlanın,\n- Cihazı yeniden başlatın,\n- Gerekirse ağ ayarlarını sıfırlayın. Düzelmezse tekrar yazabilirsiniz, detaylı kontrol sağlayalım."
+          },
+
+          "final_solved": {
+            "type": "final",
+            "text": "Harika! Sorun çözülmüş görünüyor, iyi kullanımlar."
+          },
+
+          "final_external_issue": {
+            "type": "final",
+            "text": "Kablolu bağlantıda da sorun varsa hat veya dış ünite kaynaklı olabilir. Teknik ekip gerekebilir."
+          }
+        }
+      }
+    },
+
+    {
+      "id": "sik_kopma_dalgalanma",
+      "name": "Sık Kopma / Dalgalanma",
+
+      "intent_triggers": [
+        "sürekli kopuyor",
+        "sık sık kopuyor",
+        "bağlantı kopuyor",
+        "dalgalanma var",
+        "ping çok yüksek",
+        "İnternetim sık sık kopuyor",
+        "gecikme sorunu",
+        "İnternetin Sık Sık Kopması / Bağlantıda Dalgalanma Olması Problemi",
+        "sık sık kopma problemi yaşıyorum donma oluyor",
+        "İnternet zayıf, lütfen sorunu çözün"
+
+      ],
+
+      "tree": {
+        "root": "node_priz_check",
+
+        "nodes": {
+          "node_priz_check": {
+            "type": "question",
+            "text": "Modeminizi uzatma kablosu, 3’lü priz veya gevşek bir priz üzerinden mi kullanıyorsunuz?",
+            "branches": [
+              { "match": ["evet"], "next": "node_priz_reboot" },
+              { "match": ["hayır"], "next": "node_after_reboot" },
+              { "default": true, "next": "node_after_reboot" }
+            ]
+          },
+
+          "node_priz_reboot": {
+            "type": "question",
+            "text": "Lütfen modeminizi doğrudan duvar prizine takın. Uzatma kabloları ve gevşek prizler voltaj dalgalanmasına bağlı kopmalara neden olabilir.Bunları yaptıktan kopma sorunu devam ediyor mu?",
+            "branches": [
+              { "match": ["hayır"], "next": "final_solved" },
+              { "match": ["evet"], "next": "node_wifi_or_line" },
+              { "default": true, "next": "node_wifi_or_line" }
+            ]
+          },
+
+
+
+          "node_after_reboot": {
+            "type": "question",
+            "text": "Modeminizi ve varsa router’ınızı 30 saniye kapatıp açın. Cihazların tamamen toparlanması yaklaşık 1 dakika sürecektir.Yeniden başlatmadan sonra kopma sorunu hala devam ediyor mu?",
+            "branches": [
+              { "match": ["hayır"], "next": "final_solved" },
+              { "match": ["evet"], "next": "node_wifi_or_line" },
+              { "default": true, "next": "node_wifi_or_line" }
+            ]
+          },
+
+          "node_wifi_or_line": {
+            "type": "question",
+            "text": "Kopma sadece WiFi ile bağlanınca mı oluyor, yoksa kablolu (Ethernet) bağlantıda da kopuyor mu?",
+            "branches": [
+              { "match": ["wifi"], "next": "node_wifi_retest" },
+              { "match": ["ethernet/kablolu"], "next": "node_line_issue" },
+              { "default": true, "next": "node_line_issue" }
+            ]
+          },
+
+          "node_wifi_retest": {
+            "type": "question",
+            "text": "WiFi kopmaları genelde kanal paraziti, zayıf sinyal veya modem konumu kaynaklı olur. Sinyal seviyesini ölçebilmek için modeme yakınlaşıp tekrar deneyin.Modeme yakınken kopma sorunu azalıyor mu?",
+            "branches": [
+              { "match": ["evet"], "next": "node_wifi_channel_retest" },
+              { "match": ["hayır"], "next": "node_line_issue" },
+              { "default": true, "next": "node_wifi_channel_retest" }
+            ]
+          },
+          "node_wifi_channel_retest": {
+            "type": "question",
+            "text": "Muhtemelen WiFi kanal yoğunluğu var. 2.4 GHz için kanal 1-6-11, 5 GHz için 36-48 aralığını öneriyoruz. Modem arayüzünden kablosuz kanalını değiştirin.Kanal değişiminden sonra kopmalar azaldı mı?",
+            "branches": [
+              { "match": ["evet"], "next": "final_solved" },
+              { "match": ["hayır"], "next": "node_mesh_info" }
+            ]
+          },
+
+
+
+          "node_mesh_info": {
+            "type": "final",
+            "text": "Ev büyükse (120 m² üzeri), modem uzaktaysa veya duvarlar kalınsa mesh veya repeater kullanımı kopmaları büyük oranda çözer. Mesh önerisini değerlendirebilirsiniz. Sorun devam ederse hattı da kontrol edebiliriz."
+          },
+
+          "node_line_issue": {
+            "type": "question",
+            "text": "Kopmalar günün belirli saatlerinde mi oluyor (örneğin akşamları), yoksa rastgele mi?",
+            "branches": [
+              { "match": ["Belirli saatlerde"], "next": "node_need_subscriber" },
+              { "match": ["Rastgele"], "next": "node_snr_check" },
+              { "default": true, "next": "node_snr_check" }
+            ]
+          },
+          "node_snr_check": {
+            "type": "question",
+            "text": "Modem arayüzünden hat değerlerinize (SNR Margin / Attenuation) bakabiliyor musunuz?",
+            "branches": [
+              { "match": ["evet"], "next": "node_snr_analyze" },
+              { "match": ["hayır"], "next": "node_need_subscriber" },
+              { "default": true, "next": "node_need_subscriber" }
+            ]
+          },
+
+          "node_snr_analyze": {
+            "type": "question",
+            "text": " SNR 8 dB altında ise kopma çok normaldir. 8–12 dB arası risklidir, 12 dB üzeri stabil kabul edilir. Hat zayıflaması varsa ekip müdahalesi gerekir.Son kontrol için bağlantı zamanını ve bağlantı durumunu sistemden kontrol edebilmem için abonelik numaranızı paylaşır mısınız?",
+            "allow_free_input": true,
+            "next": "node_connection_check"
+          },
+
+          "node_need_subscriber": {
+            "type": "question",
+            "text": "Günün belirli saatlerinde özellikle akşam saatlerindeki kopmalar genellikle yoğunluk veya istasyon (baz istasyonu / port) kaynaklıdır. Son bağlantı zamanını ve bağlantı durumunu sistemden kontrol edebilmem için abonelik numaranızı paylaşır mısınız?",
+            "allow_free_input": true,
+            "next": "node_connection_check"
+          },
+
+          "node_connection_check": {
+            "type": "action",
+            "auto_next": true,
+            "action": "check_connection_session",
+            "text": "Abonelik bilgilerinizi kontrol ediyorum...",
+            "next_map": {
+              "online": "final_connection_online",
+              "offline": "final_connection_offline",
+              "user_connection_data_not_found": "final_connection_data_not_found",
+              "user_not_found": "final_connection_unknown_user"
+            }
+          },
+
+          "final_solved": {
+            "type": "final",
+            "text": "Harika! Sorun çözülmüş görünüyor, iyi kullanımlar."
+          },
+
+          "final_connection_online": {
+            "type": "final",
+            "text": "Yapılan kontrollere göre şuan internete bağlı olarak gözüküyorsunuz.Son bağlantı oturumunuzun başlangıç zamanı ve durumunuz bu şekildedir: "
+          },
+          "final_connection_offline": {
+            "type": "final",
+            "text": "Yapılan kontrollere göre şuan internet bağlantınız kopmuş olarak gözüküyor.Son bağlantı kopma zamanı ve durumunuz bu şekildedir: "
+          },
+          "final_connection_data_not_found": {
+            "type": "final",
+            "text": "Yapılan kontrollere göre bağlantı bilgileriniz bulunamamıştır.Teknik servis ile iletişime geçiniz. "
+          },
+          "final_connection_unknown_user": {
+            "type": "final",
+            "text": "Bu abone numarasına ait sistemde kayıt bulunamadığı için bu işlemi gerçekleştirmek için yetkiniz bulunmamaktadır."
+          }
+        }
+      }
+    },
+
+    {
+      "id": "hiz_dusuk_yavas",
+      "name": "Hız Problemi (Düşük Hız / Yavaş İnternet)",
+
+      "intent_triggers": [
+        "hızım düşük",
+        "hızım çok düşük",
+        "internet yavaş",
+        "internet çok yavaş",
+        "Dün akşamdan beri internet çok yavaş",
+        "hız sorunu yaşıyorum",
+        "video açmıyor",
+        "speedtest düşük",
+        "Hız Problemi (Düşük Hız / Yavaş İnternet)",
+        "video izlerken yavaş",
+        "Yükleme yaparken ciddi sıkıntı yaşıyoruz, ivedi bir şekilde desteğe ihtiyacımız var",
+        "Bağlantı hızı çok düşük 10 gündür",
+        "mbps alamıyorum",
+        "Hızım düşük",
+        "8 Mbps internet vereceğine 2 Mbps veriyor sinyal ara sıra kesiliyor",
+        "Hız 0,3-0,5 Mbit civarında neden bu kadar düşük",
+        "2 mbps nin üstü hız alamıyorum yardımcı olur musunuz",
+        "deneme hız iyi değil",
+        "İnternet var ama performansı çok düşük video izlerken sürekli takılıyor HD video açmıyor en kısa zamanda arızanın giderilmesini istiyorum"
+      ],
+
+      "tree": {
+        "root": "node_speedtest_request",
+
+        "nodes": {
+          "node_speedtest_request": {
+            "type": "question",
+            "text": "Hız testini kablolu (Ethernet) bağlantıda mı yoksa WiFi ile mi yaptınız?",
+            "branches": [
+              { "match": ["ethernet/kablolu"], "next": "node_speedtest_value" },
+              { "match": ["wifi"], "next": "node_wifi_compare" },
+              { "default": true, "next": "node_speedtest_value" }
+            ]
+          },
+
+          "node_wifi_compare": {
+            "type": "question",
+            "text": "Modeme yakınken hız daha iyi geliyor mu?",
+            "branches": [
+              { "match": ["evet"], "next": "node_wifi_band" },
+              { "match": ["hayır"], "next": "node_wifi_interference" },
+              { "default": true, "next": "node_wifi_band" }
+            ]
+          },
+
+          "node_wifi_band": {
+            "type": "question",
+            "text": "Hangi WiFi ağına bağlısınız? 2.4 GHz mi 5 GHz mi?",
+            "branches": [
+              { "match": ["5 ghz"], "next": "node_5ghz_info" },
+              { "match": ["2.4 ghz"], "next": "node_24ghz_info" },
+              { "default": true, "next": "node_wifi_unknown" }
+            ]
+          },
+
+          "node_5ghz_info": {
+            "type": "question",
+            "text": "5 GHz yüksek hız sunar ancak duvarlardan daha çok etkilenir, uzak odalarda hız düşmesi normaldir.Peki Speedtest sonucu yaklaşık kaç Mbps geliyor? (Paketinizin altında mı?)",
+            "branches": [
+              { "match": ["çok düşük"], "next": "node_extremely_low_reboot_after" },
+              { "match": ["yarısı"], "next": "node_mid_low_reboot_after" },
+              { "match": ["normal/iyi"], "next": "node_device_test" },
+              { "default": true, "next": "node_mid_low_reboot_after" }
+            ]
+          },
+
+          "node_24ghz_info": {
+            "type": "question",
+            "text": "2.4 GHz daha geniş kapsama alanına sahiptir ancak yoğun trafikte yavaşlayabilir.Peki Speedtest sonucu yaklaşık kaç Mbps geliyor? (Paketinizin altında mı?)",
+            "branches": [
+              { "match": ["çok düşük"], "next": "node_extremely_low_reboot_after" },
+              { "match": ["yarısı"], "next": "node_mid_low_reboot_after" },
+              { "match": ["normal/iyi"], "next": "node_device_test" },
+              { "default": true, "next": "node_mid_low_reboot_after" }
+            ]
+          },
+
+          "node_wifi_unknown": {
+            "type": "question",
+            "text": "Modeminizde iki ağ olabilir (2.4 / 5 GHz). Daha stabil bir sonuç elde edebilmek için 5 GHz ağınızı modemin bulunduğu yere yakın odalarda, 2.4 GHz ağınızı ise modemin bulunduğu yere uzak odalarda tercih edin.Peki Speedtest sonucu yaklaşık kaç Mbps geliyor? (Paketinizin altında mı?)",
+            "branches": [
+              { "match": ["çok düşük"], "next": "node_extremely_low_reboot_after" },
+              { "match": ["yarısı"], "next": "node_mid_low_reboot_after" },
+              { "match": ["normal/iyi"], "next": "node_device_test" },
+              { "default": true, "next": "node_mid_low_reboot_after" }
+            ]
+          },
+
+          "node_wifi_interference": {
+            "type": "question",
+            "text": "Çevrede parazit oluşturabilecek cihazlar (Bluetooth hoparlör, mikrodalga, IP kamera) WiFi hızını düşürebilir. Daha iyi bir internet hızı alabilmeniz için bu cihazları modemden uzaklaştırmanızı öneririm.Peki Speedtest sonucu yaklaşık kaç Mbps geliyor? (Paketinizin altında mı?)",
+            "branches": [
+              { "match": ["çok düşük"], "next": "node_extremely_low_reboot_after" },
+              { "match": ["yarısı"], "next": "node_mid_low_reboot_after" },
+              { "match": ["normal/iyi"], "next": "node_device_test" },
+              { "default": true, "next": "node_mid_low_reboot_after" }
+            ]
+          },
+
+          "node_speedtest_value": {
+            "type": "question",
+            "text": "Speedtest sonucu yaklaşık kaç Mbps geliyor? (Paketinizin altında mı?)",
+            "branches": [
+              { "match": ["çok düşük"], "next": "node_extremely_low_reboot_after" },
+              { "match": ["yarısı"], "next": "node_mid_low_reboot_after" },
+              { "match": ["normal/iyi"], "next": "node_device_test" },
+              { "default": true, "next": "node_mid_low_reboot_after" }
+            ]
+          },
+          "node_extremely_low_reboot_after": {
+            "type": "question",
+            "text": "Paketinizin kapasitesinin çok altında hız alınması hattınızda ciddi zayıflama, port sorunu veya profil hatası olabileceğini gösterir.Modemi 30 saniye kapatıp açmanızı rica edeceğim. Profiliniz yenileneceği için hız yükselmesi olabilir.Yeniden başlatmadan sonra hızda iyileşme oldu mu?",
+            "branches": [
+              { "match": ["evet"], "next": "final_solved" },
+              { "match": ["hayır"], "next": "node_time_check" },
+              { "default": true, "next": "node_time_check" }
+            ]
+          },
+          "node_mid_low_reboot_after": {
+            "type": "question",
+            "text": "Demek ki Hız beklenenin altında geliyor. Bunu etkileyen faktörler: modem arayüz hat değerleri, kablo sağlığı, yoğunluk veya hat zayıflaması olabilir.Modemi 30 saniye kapatıp açmanızı rica edeceğim. Profiliniz yenileneceği için hız yükselmesi olabilir.Yeniden başlatmadan sonra hızda iyileşme oldu mu?",
+            "branches": [
+              { "match": ["evet"], "next": "final_solved" },
+              { "match": ["hayır"], "next": "node_time_check" },
+              { "default": true, "next": "node_time_check" }
+            ]
+          },
+          "node_time_check": {
+            "type": "question",
+            "text": "Hız problemi günün belirli saatlerinde mi oluyor? (Örneğin sadece akşamları mı?)",
+            "branches": [
+              { "match": ["Belirli saatlerde"], "next": "node_peak_info" },
+              { "match": ["Gün boyu"], "next": "node_line_quality" },
+              { "default": true, "next": "node_line_quality" }
+            ]
+          },
+
+          "node_peak_info": {
+            "type": "question",
+            "text": "Akşam yavaşlaması genelde bağlı olduğunuz istasyonun yoğunluğundan kaynaklanır. Bu durumda port/kapasite kontrolü gerekir.Hat değerlerinizin kontrol edip hızınızın optimize edebilebilmesi için talep oluşturmak istiyor musunuz?",
+            "branches": [
+              { "match": ["Evet"], "next": "node_saha_open_ariza_kaydi_by_input" },
+              { "match": ["Hayır"], "next": "node_saha_not_need" },
+              { "default": true, "next": "node_saha_not_need" }
+            ]
+          },
+
+          "node_line_quality": {
+            "type": "question",
+            "text": "Modem arayüzüne erişebiliyor musunuz? SNR Margin ve hat zayıflaması (attenuation) değerlerine bakabilir misiniz?",
+            "branches": [
+              { "match": ["evet"], "next": "node_snr_info" },
+              { "match": ["hayır"], "next": "node_need_subscriber" },
+              { "default": true, "next": "node_need_subscriber" }
+            ]
+          },
+
+          "node_snr_info": {
+            "type": "question",
+            "text": "SNR 8 dB altında ise hız ve kopma problemleri normaldir. 8–12 dB riskli, 12 dB üzeri stabil kabul edilir. Attenuation yüksekse hat zayıflıyordur.Hat değerlerinizin kontrol edip hızınızın optimize edebilebilmesi için talep oluşturmak istiyor musunuz?",
+            "branches": [
+              { "match": ["Evet"], "next": "node_saha_open_ariza_kaydi_by_input" },
+              { "match": ["Hayır"], "next": "node_saha_not_need" },
+              { "default": true, "next": "node_saha_not_need" }
+            ]
+          },
+
+          "node_device_test": {
+            "type": "question",
+            "text": "Sorun tüm cihazlarda mı oluyor yoksa sadece belirli bir cihazda mı?",
+            "branches": [
+              { "match": ["tek"], "next": "final_solved_or_not" },
+              { "match": ["tüm"], "next": "node_need_subscriber" },
+              { "default": true, "next": "node_need_subscriber" }
+            ]
+          },
+          "node_need_subscriber": {
+            "type": "question",
+            "text": "Hat değerlerinizin kontrol edip hızınızın optimize edebilebilmesi için talep oluşturmak istiyor musunuz?",
+            "branches": [
+              { "match": ["Evet"], "next": "node_saha_open_ariza_kaydi_by_input" },
+              { "match": ["Hayır"], "next": "node_saha_not_need" },
+              { "default": true, "next": "node_saha_not_need" }
+            ]
+          },
+          "node_saha_open_ariza_kaydi_by_input": {
+            "type": "question",
+            "text": "Arıza kaydınızı en doğru şekilde oluşturabilmem için lütfen yaşadığınız problemi detaylıca yazar mısınız?",
+            "allow_free_input": true,
+            "next": "node_saha_ariza_check"
+          },
+
+          "node_saha_ariza_check": {
+            "type": "action",
+            "auto_next": true,
+            "action": "check_saha_ariza_session",
+            "text": "Talebinizi oluşturuyorum...",
+            "next_map": {
+              "ticked_created": "final_saha_ticked_creation_success",
+              "ticked_not_created": "final_saha_ticked_creation_failed"
+            }
+          },
+          "final_wait": {
+            "type": "final",
+            "text": "Bilgileri aldıktan sonra hız profilinizi ve port değerlerinizi kontrol edeceğim."
+          },
+          "final_saha_ticked_creation_success": {
+            "type": "final",
+            "text": "Talebiniz üzere kaydınızı oluşturdum.Oluşturulan kaydınız bu şekildedir: "
+          },
+          "final_saha_ticked_creation_failed": {
+            "type": "final",
+            "text": "Kaydınız oluşturulurken beklenmeyen bir hata oluştu.Lütfen daha sonra tekrar deneyiniz."
+          },
+          "node_saha_not_need": {
+            "type": "final",
+            "text": "Değerli müşterimiz,talebiniz üzerine talep kaydınız oluşturulmamıştır."
+          },
+          "final_solved": {
+            "type": "final",
+            "text": "Harika! Hız problemi düzelmiş görünüyor, iyi kullanımlar."
+          },
+
+          "final_solved_or_not": {
+            "type": "final",
+            "text": "Bu durumda cihaz kaynaklı hız limiti olabilir. Cihazda ağ ayarlarını sıfırlamanızı ve farklı bir cihazla test yapmanızı öneririm. Düzelmezse tekrar yazabilirsiniz."
+          }
+        }
+      }
+    },
+
+    {
+      "id": "fatura_odeme_kesinti",
+      "name": "Fatura / Ödeme Kaynaklı Kesinti",
+
+      "intent_triggers": [
+        "faturamı ödedim internet yok",
+        "borç yok ama internet yok",
+        "borcumu ödeyemiyorum",
+        "borç ödeme",
+        "borç ödedim",
+        "borcumu ödedim",
+        "İnternet yok çekmiyor faturayı ödedim açılmadı",
+        "faturayı ödedim. internet bağlanmadı.",
+        "Faturamı odedim internetim gelmedi",
+        "3 haftadır faturamizi ödediğimiz halde internetimiz çekmiyor video izleyemiyoruz lütfen sorunumuzu çözelim para ödüyoruz ama kullanamıyoruz",
+        "İnternetim faturası ödendi açılmadı",
+        "Fatura ödeme yapıldı internet i aciverin",
+        "Faturamı ödedim ama internetim yok",
+        "Fatura ödendiği halde internetin gelmemesi",
+        "Faturamı yatırdığım halde neden açılmadı",
+        "Fatura ödedik internet hala gelmedi",
+        "Fatura / Borç / Ödeme Kaynaklı Kesinti Problemi",
+        "faturamı ziraat bankasından odememe ragmen hala internet gelmedi",
+        "Birden net gitti modern de sarı ışık yanmaya başladı aşağı yukarı 1 saattir de net yok ödenmemiş faturam da yok",
+        "Faturamı odedim.interneti açar mısınız",
+        "İnternet faturamı ödedim fakat internetim yok",
+        "Faturasını ödedik açarmısınız",
+        "Faturayı ödememe rağmen internetim gelmedi. Ve hala fatura ödenmemiş olarak gözüküyor",
+        "İnternet faturasını ödememe rağmen internetim açılmadı",
+        "Fatura ödendi internet gelmedi",
+        "Merhabalar,iki adet ödenmemiş faturalarımiz vardi ödemeleri gerçekleştirdik.internet açılması konusunda yardımlarınızı arz ederiz",
+        "Faturalarımı ödedim ama ödenmedi olarak görünüyor ne yapmalıyım?",
+        "Faturamı ödememe rağmen internet bağlantım yok",
+        "Faturamı ödedim internet gelmedi",
+        "Faturamizi ödedik kullanıma acabilirmisiniz",
+        "Ödeme yaptım İnterneti açarmısınız bugün 2tane fatura ödedim",
+        "Faturayı ödediğim halde ödenmedi yazıyor ve internetim kesik",
+        "Fatura ödedim, ödenmedi görünüyor.Kontrol lütfen.",
+        "Fatura ödendi halde internet yok arızamın giderilmesini istiyorum",
+        "Faturamı ödeyemiyorum",
+        "Fatura ödemesi yaptım internet acilmadi",
+        "İnternet faturası ödendi biraz önce yatırdık ne zaman açılır",
+        "Fatura odemeyi unutmusum simdi kartimdan odedim internet acilmadi ilgilenir msnz acill",
+        "Faturamı ödedim interneti açarmısınız",
+        "Internet faturamı ödediğim halde İnternetimi kullanamıyorum ve günlerdir böyle",
+        "İnternet bağlantımız yok. Fatura olarak baktığımda ödenmemiş gözükmüyor. Yardımcı olabilir misiniz ?",
+        "İnternet fatura mızı ödememize rağmen İnternet ışığımız kırmızı yapmaktadır.",
+        "İnternetim faturamı ödedim ama hâlâ açılmadı",
+        "Faturamı ödedim internetim yok ve gelince de çok yavaş yardımcı olırmusunuz",
+        "Faturamı ödediğim halde internetim yok",
+        "Faturamı ödedim internet erişimi yok bu durum böyle devam edecekse iptal edelim aboneliğimi bn kullanmadığım günün faturasını ödemek zorunda değilim",
+        "İnternet kesildi fatura borcunuz yok diyor",
+        "Merhaba fatura ödenmediğinden dolayı kısıtlama gelmişti fatura ödemesini yaptım kısıtlamayı kaldırırsanız sevinirim",
+        "Merhaba..dünden beri internet hizmeti alamıyorum,kesik gözüküyor..ödenmemiş faturam da yok..acil kontrol edebilir misiniz lütfen?",
+        "internetimin fatura tarihi gelmemesine rağmen internetim şuan yok olarak gözüküyor",
+        "İnternet bağlantısı yok faturadanmı arızamı var",
+        "Fatura ödedim ödenmemiş gösteriyor",
+        "Ödenmemiş fatura olmamasına rağmen internetimiz kesik",
+        "İnternet bağlantımız yok ödenmemiş faturada gözükmüyor",
+        "fatura ödedim açılmadı",
+        "ödemeyi yaptım internet açılmadı",
+        "kısıtlama kalkmadı"
+      ],
+
+      "tree": {
+        "root": "node_payment_method",
+
+        "nodes": {
+          "node_payment_method": {
+            "type": "question",
+            "text": "Ödemeyi hangi kanaldan yaptınız? (ATM / Mobil Bankacılık / Şube / Online)",
+            "branches": [
+              { "match": ["atm"], "next": "node_atm_delay" },
+              { "match": ["mobil/internet/online"], "next": "node_online_delay" },
+              { "match": ["şube"], "next": "node_bank_branch" },
+              { "default": true, "next": "node_online_delay" }
+            ]
+          },
+
+          "node_atm_delay": {
+            "type": "question",
+            "text": "ATM üzerinden yapılan ödemeler bazen bankanın işlem sırasına göre 5–30 dakika gecikmeli düşebiliyor.Ödemeyi yaklaşık ne zaman yaptınız? (5 dk öncesi / 30 dk öncesi / 1 saatten fazla)",
+            "branches": [
+              { "match": ["15 dk falan"], "next": "node_short_wait_internet_light_check" },
+              { "match": ["30 dk falan "], "next": "node_med_wait_internet_light_check" },
+              { "match": ["1 saat falan"], "next": "node_long_wait_internet_light_check" },
+              { "default": true, "next": "node_med_wait_internet_light_check" }
+            ]
+          },
+
+          "node_online_delay": {
+            "type": "question",
+            "text": "Online ve mobil bankacılık ödemeleri genelde anlık düşer ancak yoğunluk durumunda 5–10 dakika gecikme olabilir.Ödemeyi yaklaşık ne zaman yaptınız? (5 dk öncesi / 30 dk öncesi / 1 saatten fazla)",
+            "branches": [
+              { "match": ["15 dk falan"], "next": "node_short_wait_internet_light_check" },
+              { "match": ["30 dk falan "], "next": "node_med_wait_internet_light_check" },
+              { "match": ["1 saat falan"], "next": "node_long_wait_internet_light_check" },
+              { "default": true, "next": "node_med_wait_internet_light_check" }
+            ]
+          },
+
+          "node_bank_branch": {
+            "type": "question",
+            "text": "Şubeden yapılan ödemelerde makbuzda işlem zamanı önemlidir. Ödeme doğru abone numarasına yapıldıysa genelde anında düşer.Ödemeyi yaklaşık ne zaman yaptınız? (5 dk öncesi / 30 dk öncesi / 1 saatten fazla)",
+            "branches": [
+              { "match": ["15 dk falan"], "next": "node_short_wait_internet_light_check" },
+              { "match": ["30 dk falan "], "next": "node_med_wait_internet_light_check" },
+              { "match": ["1 saat falan"], "next": "node_long_wait_internet_light_check" },
+              { "default": true, "next": "node_med_wait_internet_light_check" }
+            ]
+          },
+          "node_short_wait_internet_light_check": {
+            "type": "question",
+            "text": "Ödeme çok yeni olduğu için henüz sistemlerin senkronize olmamış olması normaldir. Birkaç dakika içinde düşecektir.Modemde internet ışığı yanıyor mu, yoksa kırmızı/turuncu mu?",
+            "branches": [
+              { "match": ["kırmızı/turuncu yanıyor ya da hiç yanmıyor"], "next": "node_need_payment_info" },
+              { "match": ["yeşil yanıyor"], "next": "node_after_restart" },
+              { "default": true, "next": "node_need_payment_info" }
+            ]
+          },
+          "node_med_wait_internet_light_check": {
+            "type": "question",
+            "text": "Ödeme makul bir süre önce yapılmış. Sistem kontrolü için birkaç bilgi alacağım.Modemde internet ışığı yanıyor mu, yoksa kırmızı/turuncu mu?",
+            "branches": [
+              { "match": ["kırmızı/turuncu yanıyor ya da hiç yanmıyor"], "next": "node_need_payment_info" },
+              { "match": ["yeşil yanıyor"], "next": "node_after_restart" },
+              { "default": true, "next": "node_need_payment_info" }
+            ]
+          },
+          "node_long_wait_internet_light_check": {
+            "type": "question",
+            "text": "Ödeme üzerinden uzun süre geçmiş. Normalde bu kadar gecikme olmaz, mutlaka manuel kontrol gerektirir.Peki modemde internet ışığı yanıyor mu, yoksa kırmızı/turuncu mu?",
+            "branches": [
+              { "match": ["kırmızı/turuncu yanıyor ya da hiç yanmıyor"], "next": "node_need_payment_info" },
+              { "match": ["yeşil yanıyor"], "next": "node_after_restart" },
+              { "default": true, "next": "node_need_payment_info" }
+            ]
+          },
+
+          "node_after_restart": {
+            "type": "question",
+            "text": "Modem ışığı yeşil yanıyorsa hizmet açık görünüyor olabilir fakat cihazınız eski IP'yi veya kısıtlama sayfasını cache’lemiş olabilir. Lütfen modemi 20–30 saniye kapatıp yeniden açın. Bu işlem son bağlantı profilinizi yeniler.Modemi yeniden başlattıktan sonra internet geldi mi?",
+            "branches": [
+              { "match": ["evet"], "next": "final_solved" },
+              { "match": ["hayır"], "next": "node_need_payment_info" },
+              { "default": true, "next": "node_need_payment_info" }
+            ]
+          },
+
+          "node_need_payment_info": {
+            "type": "question",
+            "text": "Modem ışığı hala kısıtlama durumunu gösteriyor. Ödeme düşmediği için hizmet otomatik açılmamış olabilir.Lütfen abone numaranızı paylaşabilir misiniz ? Güncel borç ve fatura durumunuzu kontrol edeceğim.",
+            "allow_free_input": true,
+            "next": "node_payment_and_debt_check"
+          },
+
+          "node_payment_and_debt_check": {
+            "type": "action",
+            "auto_next": true,
+            "action": "check_payment_session",
+            "text": "Abonelik bilgilerinizi kontrol ediyorum...",
+            "next_map": {
+              "has_unpaid_payment": "final_has_unpaid_payment",
+              "has_paid_payment": "final_has_paid_payment",
+              "payment_record_not_found": "final_payment_record_not_found",
+              "user_not_found": "final_payment_unknown_user"
+            }
+          },
+
+          "final_solved": {
+            "type": "final",
+            "text": "Harika! Ödeme sonrası hizmetiniz açılmış görünüyor. İyi kullanımlar."
+          },
+
+
+
+          "final_has_unpaid_payment": {
+            "type": "final",
+            "text": "Yapılan kontrollere göre ödenmemiş faturanız bulunmaktadır.Borcunuzu ödediğinizde hizmetinizi sorunsuz bir şekilde kullanmaya devam edebilirsiniz.Toplam borç bilginiz ve ödenmemiş faturanın bilgileri bu şekildedir: "
+          },
+          "final_has_paid_payment": {
+            "type": "final",
+            "text": "Yapılan kontrollere göre ödenmemiş faturanız bulunmamaktadır.Hizmetiniz 24 saat içinde kullanıma açılacaktır."
+          },
+
+          "final_payment_record_not_found": {
+            "type": "final",
+            "text": "Yapılan kontrollere göre sistemde adınıza kayıtlı bir fatura kaydı bulunmuyor.Müsteri Temsilciliği ile iletişime geçiniz."
+          },
+
+          "final_payment_unknown_user": {
+            "type": "final",
+            "text": "Bu abone numarasına ait kayıt bulunamadığı için bu işlemi gerçekleştirmek için yetkiniz bulunmamaktadır."
+          }
+        }
+      }
+    },
+
+    {
+      "id": "kurulum_reset_modem_ayar",
+      "name": "Kurulum / Reset / Modem Ayar Sorunları",
+
+      "intent_triggers": [
+        "Reset attım şifrem ve ağ ismi gitti",
+        "modeme reset attım",
+        "modem reset",
+        "reset attım",
+        "modemi sıfırladım",
+        "kurulum yapılacak",
+        "modem kurulumu",
+        "wifi şifrem sıfırlandı",
+        "ağ adı değişti",
+        "Kurulum / Reset / Modem Ayar Sorunları",
+        "ssid değişti",
+        "fabika ayar",
+        "internet ayarları silindi"
+      ],
+
+      "tree": {
+        "root": "node_reset_reason",
+
+        "nodes": {
+
+          "node_reset_reason": {
+            "type": "question",
+            "text": "Modeme reset attıktan sonra hangi sorunu yaşıyorsunuz? İnternet tamamen yok mu yoksa sadece WiFi adı/şifresi mi değişti?",
+            "branches": [
+              { "match": ["internet yok/pppoe/kullanıcı adı"], "next": "node_ask_modem_model" },
+              { "match": ["wifi/ağ adı/şifre/ssid"], "next": "node_wifi_after" },
+              { "default": true, "next": "node_ask_modem_model" }
+            ]
+          },
+          "node_wifi_after": {
+            "type": "question",
+            "text": "Reset sonrası modem fabrika ayarlarına döndüğü için WiFi ağ adı (SSID) ve şifre değişmiş olabilir.Cihazlar eski ağı hatırladığı için bağlanamayabilir.\nLütfen:\n1) Cihazınızdan eski ağı seçip 'Ağı unut/Forget' yapın.\n2) Modemin üzerinde yazan varsayılan WiFi adına tekrar bağlanın.Yeni WiFi adı/şifresi ile bağlantı sağlandı mı?",
+            "branches": [
+              { "match": ["evet"], "next": "final_wifi_ok" },
+              { "match": ["hayır"], "next": "node_ask_modem_model" },
+              { "default": true, "next": "node_ask_modem_model" }
+            ]
+          },
+
+          "node_ask_modem_model": {
+            "type": "question",
+            "text": "Reset sonrası modemdeki PPPoE internet ayarları silinmiş olabilir. Bağlantının gelmesi için kullanıcı adı ve şifrenizin yeniden girilmesi gerekiyor.Modeminizin marka ve modelini yazar mısınız? Size özel kurulum adımlarını göndereceğim.",
+            "branches": [
+              { "match": ["zte"], "next": "node_after_setup" },
+              { "match": ["tp"], "next": "node_after_setup" },
+              { "match": ["asus"], "next": "node_after_setup" },
+              { "match": ["keenetic"], "next": "node_after_setup" },
+              { "match": ["huawei"], "next": "node_after_setup" },
+              { "match": ["airties"], "next": "node_after_setup" },
+              { "match": ["diğer"], "next": "node_after_setup" },
+              { "default": true, "next": "node_after_setup" }
+            ]
+          },
+
+
+
+          "node_after_setup": {
+            "type": "question",
+            "text": "Genel modem kurulum adımları:\n1) Tarayıcıdan 192.168.1.1 veya 192.168.0.1 adresine girin.\n2) Kullanıcı adı/şifre genelde admin/admin veya modem etiketi üzerindedir.\n3) 'İnternet Ayarları / WAN / PPPoE' bölümünü açın.\n4) Size verilen PPPoE kullanıcı adını ve şifresini girip kaydedin.\n5) Modem birkaç saniye içinde internete bağlanacaktır.Kurulum adımlarını uyguladıktan sonra internet geldi mi?",
+            "branches": [
+              { "match": ["evet"], "next": "final_solved" },
+              { "match": ["hayır"], "next": "node_need_credentials" },
+              { "default": true, "next": "node_need_credentials" }
+            ]
+          },
+
+          "node_need_credentials": {
+            "type": "question",
+            "text": "Elinizde PPPoE kullanıcı adı ve şifresi var mı? (Hizmet aktif değilse bağlantı sağlanamaz)",
+            "branches": [
+              { "match": ["var"], "next": "node_retest_connection" },
+              { "match": ["yok"], "next": "node_send_credentials" },
+              { "default": true, "next": "node_send_credentials" }
+            ]
+          },
+
+
+
+          "node_send_credentials": {
+            "type": "question",
+            "text": "Size özel PPPoE kullanıcı adı/şifresini kontrol edip iletebilirim. Abone numaranızı paylaşabilir misiniz?",
+            "allow_free_input": true,
+            "next": "node_pppoe_check"
+          },
+
+          "node_pppoe_check": {
+            "type": "action",
+            "auto_next": true,
+            "action": "check_ppp_session",
+            "text": "Abonelik bilgilerinizi kontrol ediyorum...",
+            "next_map": {
+              "online": "final_pppoe_online",
+              "offline": "final_pppoe_offline",
+              "not_found": "final_pppoe_unknown_user"
+            }
+          },
+
+
+          "node_retest_connection": {
+            "type": "question",
+            "text": "Girilen kullanıcı adı/şifre hatalı olabilir. Harf büyük-küçük farkına dikkat ederek tekrar deneyin. Bilgileri tekrar girdikten sonra modem internete bağlandı mı?",
+            "branches": [
+              { "match": ["evet"], "next": "final_solved" },
+              { "match": ["hayır"], "next": "node_check_line" },
+              { "default": true, "next": "node_check_line" }
+            ]
+          },
+
+          "node_check_line": {
+            "type": "question",
+            "text": "Kurulumun doğru yapılmasına rağmen internet gelmiyorsa, hat tarafında bir aktiflik problemi veya sinyal sorunu olabilir ve mutlaka sistemden manuel olarak kontrol edilmesi gerekir.Teknik destek talebi oluşturmak istiyor musunuz?",
+            "branches": [
+              { "match": ["Evet"], "next": "node_saha_open_ariza_kaydi_by_input" },
+              { "match": ["Hayır"], "next": "node_saha_not_need" },
+              { "default": true, "next": "node_saha_not_need" }
+            ]
+          },
+          "node_saha_open_ariza_kaydi_by_input": {
+            "type": "question",
+            "text": "Teknik destek talebinizi en doğru şekilde oluşturabilmem için lütfen yaşadığınız problemi detaylıca yazar mısınız?",
+            "allow_free_input": true,
+            "next": "node_saha_ariza_check"
+          },
+
+          "node_saha_ariza_check": {
+            "type": "action",
+            "auto_next": true,
+            "action": "check_saha_ariza_session",
+            "text": "Teknik destek talebinizi oluşturuyorum...",
+            "next_map": {
+              "ticked_created": "final_saha_ticked_creation_success",
+              "ticked_not_created": "final_saha_ticked_creation_failed"
+            }
+          },
+          "final_wifi_ok": {
+            "type": "final",
+            "text": "Harika! WiFi bağlantısı sağlanmış görünüyor, iyi kullanımlar."
+          },
+
+          "final_solved": {
+            "type": "final",
+            "text": "Kurulum başarıyla tamamlandı ve internet geldi. Keyifli kullanımlar!"
+          },
+
+          "final_pppoe_online": {
+            "type": "final",
+            "text": "Görünen o ki PPP oturumunuz aktif. İnternet ışığı yanmıyorsa modem üzerindeki DSL/ONT tarafında bir sorun olabilir veya kullanıcı adınızı veya şifrenizi yanlış giriyor olabilirsiniz.Lütfen kullanıcı adınızı ve şifrenizi bu şekilde giriniz: "
+          },
+          "final_pppoe_offline": {
+            "type": "final",
+            "text": "Görünen o ki PPP oturumunuz olusturulmamış. PPP oturumu oluşturduktan sonra lütfen tekrar deneyiniz."
+          },
+          "final_pppoe_unknown_user": {
+            "type": "final",
+            "text": "Bu abone numarasına ait kayıt bulunamadığı için bu işlemi gerçekleştirmek için yetkiniz bulunmamaktadır."
+          },
+          "final_saha_ticked_creation_success": {
+            "type": "final",
+            "text": "Talebiniz üzere arıza kaydınızı oluşturdum.Oluşturulan arıza kaydınız bu şekildedir: "
+          },
+          "final_saha_ticked_creation_failed": {
+            "type": "final",
+            "text": "Arıza kaydı oluşturulurken beklenmeyen bir hata oluştu.Lütfen daha sonra tekrar deneyiniz."
+          },
+          "node_saha_not_need": {
+            "type": "final",
+            "text": "Değerli müşterimiz,talebiniz üzerine arıza kaydı oluşturulmamıştır."
+          },
+          "final_wait_line": {
+            "type": "final",
+            "text": "Hat durumunuzu kontrol edip sizi bilgilendireceğim."
+          }
+        }
+      }
+    },
+
+    {
+      "id": "cihaz_donanim_arizasi",
+      "name": "Cihaz / Donanım Arızası (Modem, Adaptör, Kablo, Anten)",
+
+      "intent_triggers": [
+        "modemin ışıkları yanmıyor",
+        "modem arızalı",
+        "modem çalışmıyor hız gitmiyor müşteriye ve müşterinin hat değerleri yüksek",
+        "adaptör arızalı",
+        "kablo arızalı",
+        "çanak sorunu",
+        "anten sorunu",
+        "dsl ışığım yanmıyor",
+        "dsl ışığı yanmıyor",
+        "Modemde internet ışığı",
+        "Modem de İnternet ışığı kırmızı yanıyor İnternet erişimi yok",
+        "Modemim aktif olduğu halde internet ağı gözükmüyor",
+        "Modemimin internet ışığı yanmıyor ve internetim yok.",
+        "modemimin DSL ışığı yanmıyor ve internet bağlantım sağlanmıyor",
+        "İnternetim çekmiyor modem kırmızı ışık yanıyor günlerdir",
+        "Modemim aktif olduğu halde internet ağı gözükmüyor",
+        "modem arayüzü şifremi ve adımı öğrenmek istiyorum",
+        "Cihaz / Donanım Arızası (Modem, Adaptör, Kablo, Anten)",
+        "Modemim açık şekilde ama modeme bağlanamıyorum.",
+        "Modem üzerinde internet ışığım turuncu yanıyor ve bağlanmaya çalıştığımda internet erişimi yok uyarısı alıyorum",
+        "Modem ariza veriyor.internete giremiyoruz",
+        "modem üzerinde internet ve DNS ışığı yanmıyor",
+        "Modem de soldan birinci ışık yanmıyor.",
+        "Modemde soldan birinci ışık yanmıyor.",
+        "Modemde kırmızı ışık yanıyor",
+        "Modemin ışıkları yanmıyor internet yok",
+        "Modemin üzerindeki ışıklardan",
+        "Modem de kırmızı ışık sönmüyor",
+        "Modeme kablosuz olarak bağlanamıyorum",
+        "İnternete bağlanamıyorum modem Wi-Fi ışığı yanmıyor",
+        "Modemin üzerine kola döktüm",
+        "3 günden beri internetim yok modemin internet ışığı yanmıyor",
+        "internet ışığı kırmızı",
+        "internet ışığı yanmıyor",
+        "fişe takınca sigorta atıyor",
+        "modem dns ışığı yanmıyor",
+        "modem kırmızı ışık",
+        "modem wifi ışığı yanmıyor",
+        "modeme bağlanamıyorum",
+        "modem ışıkları tamamen kapalı",
+        "modemin üzerine sıvı döküldü",
+        "çanak sorunu",
+        "anten sorunu",
+        "ont ışığı yanmıyor",
+        "ont ışığı kırmızı",
+        "modem ısınmış",
+        "internet ışığı turuncu",
+        "modem elektrik almıyor"
+      ],
+
+      "tree": {
+        "root": "node_what_problem",
+
+        "nodes": {
+
+          "node_what_problem": {
+            "type": "question",
+            "text": "Modeminizde tam olarak hangi sorunu yaşıyorsunuz? Işıklar tamamen mi kapalı, yoksa DSL/Internet ışıkları mı yanmıyor?",
+            "branches": [
+              { "match": ["ışık yok"], "next": "node_after_power_test" },
+              { "match": ["dsl/adsl/vdsl"], "next": "node_after_dsl_test" },
+              { "match": ["internet ışığı kırmızı/turuncu yanıyor"], "next": "node_after_internet_led" },
+              { "match": ["modeme bağlanamıyorum"], "next": "node_after_wifi" },
+              { "match": ["ont/anten/çanak"], "next": "node_after_ont" },
+              { "match": ["Modeme sıvı temas etti"], "next": "node_liquid_damage" },
+              { "default": true, "next": "node_after_power_test" }
+            ]
+          },
+          "node_after_power_test": {
+            "type": "question",
+            "text": "Modemin hiç ışığı yanmıyorsa büyük ihtimalle elektrik/Adaptör kaynaklı bir sorun vardır.\n\nLütfen şu adımları deneyin:\n1) Modemi farklı bir prize takın.\n2) Priz çoklu uzatma ise çıkarıp direkt duvar prizine takın.\n3) Adaptörün kablosunu oynatıp temas olup olmadığını kontrol edin.\n4) Mümkünse başka bir adaptör ile test edin.Modemi farklı prizde veya farklı adaptörle denediğinizde ışıklar yandı mı?",
+            "branches": [
+              { "match": ["evet"], "next": "final_power_fixed" },
+              { "match": ["hayır"], "next": "node_device_replace_question" },
+              { "default": true, "next": "node_device_replace_question" }
+            ]
+          },
+          "node_liquid_damage": {
+            "type": "question",
+            "text": "Modemin üzerine sıvı dökülmesi ciddi donanım arızasına sebep olur. Cihazın iç devresi kısa devre yapmış olabilir. Lütfen güvenliğiniz için modemi fişten çekin ve kullanmayı bırakın.Arıza kaydı açmak istiyor musunuz ?",
+            "branches": [
+              { "match": ["Evet"], "next": "node_saha_open_ariza_kaydi_by_input" },
+              { "match": ["Hayır"], "next": "node_saha_not_need" },
+              { "default": true, "next": "node_saha_not_need" }
+            ]
+          },
+          "node_device_replace_question": {
+            "type": "question",
+            "text": "Modem hiçbir şekilde elektrik almıyorsa büyük ihtimalle adaptör veya modem arızalıdır. Cihaz değişimi veya garanti süreci başlatılmalıdır.Arıza kaydı açmak istiyor musunuz ? ",
+            "branches": [
+              { "match": ["Evet"], "next": "node_saha_open_ariza_kaydi_by_input" },
+              { "match": ["Hayır"], "next": "node_saha_not_need" },
+              { "default": true, "next": "node_saha_not_need" }
+            ]
+          },
+          "node_after_dsl_test": {
+            "type": "question",
+            "text": "DSL ışığı yanmıyorsa modem karşı taraftan sinyal alamıyor demektir.\n\nLütfen şunları yapın:\n1) Modem–priz arasındaki DSL kablosunu çıkarıp yeniden takın.\n2) Splitter varsa direkt duvardan modem kablosu ile deneyin.\n3) Evde başka bir telefon hattı varsa orada da deneyebilirsiniz.Bu adımlardan sonra DSL ışığı yanıp sabitlendi mi?",
+            "branches": [
+              { "match": ["evet"], "next": "final_dsl_ok" },
+              { "match": ["hayır"], "next": "node_line_fault" },
+              { "default": true, "next": "node_line_fault" }
+            ]
+          },
+
+          "node_line_fault": {
+            "type": "question",
+            "text": "DSL ışığı hâlâ yanmıyorsa hat tarafında sinyal gelmiyor olabilir. Port, tesisat veya ankastre bağlantısı arızalı olabilir yani bina içi tesisat, kablo hattı veya dış ünite tarafında arıza olabilir. Arıza kaydı açmak istiyor musunuz?",
+            "branches": [
+              { "match": ["Evet"], "next": "node_saha_open_ariza_kaydi_by_input" },
+              { "match": ["Hayır"], "next": "node_saha_not_need" },
+              { "default": true, "next": "node_saha_not_need" }
+            ]
+          },
+
+
+
+          "node_after_internet_led": {
+            "type": "question",
+            "text": "Internet ışığının kırmızı/turuncu olması PPPoE kimlik doğrulamasının yapılamadığını gösterir.\n\nLütfen modem arayüzünde kullanıcı adı–şifrenizi kontrol edin.Modem arayüzünden PPPoE kullanıcı adı ve şifresini tekrar girdiniz mi?",
+            "branches": [
+              { "match": ["evet"], "next": "final_need_backend_check" },
+              { "match": ["hayır"], "next": "node_need_credentials" },
+              { "default": true, "next": "node_need_credentials" }
+            ]
+          },
+          "final_need_backend_check": {
+            "type": "final",
+            "text": "Bilgileri doğru girdiğiniz hâlde internet ışığı hâlâ kırmızı ise hat aktifliği veya karşı taraf cihazında sorun olabilir.Birkaç saat içinde sorun çözülecektir.Sorununuz çözülmezse tekrar yazabilirsiniz."
+          },
+
+
+          "node_need_credentials": {
+            "type": "question",
+            "text": "Size özel kullanıcı adı/şifre ile doğrulama yapılması gerekiyor. Abone numaranızı iletirseniz kontrol edip gönderebilirim.",
+            "allow_free_input": true,
+            "next": "node_donanim_pppoe_check"
+          },
+
+          "node_donanim_pppoe_check": {
+            "type": "action",
+            "auto_next": true,
+            "action": "check_ppp_session",
+            "text": "Abonelik bilgilerinizi kontrol ediyorum...",
+            "next_map": {
+              "online": "final_donanim_ppp_online",
+              "offline": "final_donanim_ppp_offline",
+              "not_found": "final_donanim_ppp_unknown_user"
+            }
+          },
+
+
+
+          "node_after_wifi": {
+            "type": "question",
+            "text": "Modeme bağlanamıyorsanız WiFi ışığı kapalı olabilir veya modem resetlenmiş olabilir.\n\nLütfen:\n1) Modemin WiFi tuşu varsa açık olduğundan emin olun.\n2) WiFi adını listede görüp görmediğinizi kontrol edin.\n3) Gözükmüyorsa modem reset sonrası fabrika ismine dönmüş olabilir.WiFi ağı şimdi görünüyor mu?",
+            "branches": [
+              { "match": ["evet"], "next": "final_wifi_ok" },
+              { "match": ["hayır"], "next": "node_wifi_failure" },
+              { "default": true, "next": "node_wifi_failure" }
+            ]
+          },
+
+          "node_wifi_failure": {
+            "type": "question",
+            "text": "WiFi hâlâ görünmüyorsa modem kablosuz yayın yapmıyor olabilir. Bu durumda modem arızası ihtimali yüksek. Cihaz değişimi veya garanti süreci başlatılmalıdır.Değişim sürecinizi başlatmak için cihaz değişim talep kaydı açmak istiyor musunuz ? ",
+            "branches": [
+              { "match": ["Evet"], "next": "node_saha_open_ariza_kaydi_by_input" },
+              { "match": ["Hayır"], "next": "node_saha_not_need" },
+              { "default": true, "next": "node_saha_not_need" }
+            ]
+          },
+
+
+
+          "node_after_ont": {
+            "type": "question",
+            "text": "ONT/anten/çanak ışıkları sorunda ise dış üniteden sinyal alınamıyor olabilir.\n\nLütfen:\n1) ONT cihazının ışıklarının (PON/LOS) durumuna bakın.\n2) LOS kırmızıysa dış hat kopukluğudur.\n3) Fiber kabloyu oynatıp tam oturduğundan emin olun.ONT üzerindeki PON ışığı sabit yeşil oldu mu?",
+            "branches": [
+              { "match": ["evet"], "next": "final_ont_ok" },
+              { "match": ["hayır"], "next": "node_need_technician" },
+              { "default": true, "next": "node_need_technician" }
+            ]
+          },
+          "node_need_technician": {
+            "type": "question",
+            "text": "Bu durumda bina içi tesisat, kablo hattı veya dış ünite tarafında arıza olabilir. Saha ekibi yönlendirilecektir.Arıza kaydı açmak istiyor musunuz ? ",
+            "branches": [
+              { "match": ["Evet"], "next": "node_saha_open_ariza_kaydi_by_input" },
+              { "match": ["Hayır"], "next": "node_saha_not_need" },
+              { "default": true, "next": "node_saha_not_need" }
+            ]
+          },
+          "node_saha_open_ariza_kaydi_by_input": {
+            "type": "question",
+            "text": "Kaydınızı en doğru şekilde oluşturabilmem için lütfen yaşadığınız problemi detaylıca yazar mısınız?",
+            "allow_free_input": true,
+            "next": "node_saha_ariza_check"
+          },
+
+          "node_saha_ariza_check": {
+            "type": "action",
+            "auto_next": true,
+            "action": "check_saha_ariza_session",
+            "text": "Kaydınızı oluşturuyorum...",
+            "next_map": {
+              "ticked_created": "final_saha_ticked_creation_success",
+              "ticked_not_created": "final_saha_ticked_creation_failed"
+            }
+          },
+
+          "final_saha_ticked_creation_success": {
+            "type": "final",
+            "text": "Talebiniz üzere arıza kaydınızı oluşturdum.Oluşturulan arıza kaydınız bu şekildedir: "
+          },
+          "final_saha_ticked_creation_failed": {
+            "type": "final",
+            "text": "Arıza kaydı oluşturulurken beklenmeyen bir hata oluştu.Lütfen daha sonra tekrar deneyiniz."
+          },
+          "node_saha_not_need": {
+            "type": "final",
+            "text": "Değerli müşterimiz,talebiniz üzerine arıza kaydı oluşturulmamıştır."
+          },
+
+          "final_power_fixed": {
+            "type": "final",
+            "text": "Harika! Modem priz değişimiyle çalıştı. Sorun çözülmüş görünüyor."
+          },
+
+          "final_device_replace": {
+            "type": "final",
+            "text": "Modem hiçbir şekilde elektrik almıyorsa büyük ihtimalle adaptör veya modem arızalıdır. Cihaz değişimi veya garanti süreci başlatılmalıdır."
+          },
+          "final_donanim_ppp_online": {
+            "type": "final",
+            "text": "Görünen o ki PPP oturumunuz aktif. İnternet ışığı yanmıyorsa modem üzerindeki DSL/ONT tarafında bir sorun olabilir veya kullanıcı adınızı veya şifrenizi yanlış giriyor olabilirsiniz.Lütfen kullanıcı adınızı ve şifrenizi bu şekilde giriniz: "
+          },
+          "final_donanim_ppp_offline": {
+            "type": "final",
+            "text": "Görünen o ki PPP oturumunuz olusturulmamış. PPP oturumu oluşturduktan sonra lütfen tekrar deneyiniz."
+          },
+          "final_donanim_ppp_unknown_user": {
+            "type": "final",
+            "text": "Bu abone numarasına ait kayıt bulunamadığı için bu işlemi gerçekleştirmek için yetkiniz bulunmamaktadır."
+          },
+          "final_dsl_ok": {
+            "type": "final",
+            "text": "Harika! DSL ışığı geldi, modem şimdi internete bağlanabilir. "
+          },
+
+          "final_need_technician": {
+            "type": "final",
+            "text": "Bu durumda bina içi tesisat, kablo hattı veya dış ünite tarafında arıza olabilir. Saha ekibi yönlendirilecektir."
+          },
+
+
+
+          "final_wait_credentials": {
+            "type": "final",
+            "text": "Abone numaranızı ilettiğinizde kullanıcı adı/şifre bilgilerinizi kontrol edip ileteceğim."
+          },
+
+          "final_wifi_ok": {
+            "type": "final",
+            "text": "WiFi bağlantısı sağlandı. Güle güle kullanın!"
+          },
+
+          "final_ont_ok": {
+            "type": "final",
+            "text": "ONT sinyali geldi, modem internet bağlantısı alabilir. Eğer hâlâ bağlantı yoksa PPPoE ayarları kontrol edilmelidir."
+          }
+        }
+      }
+    },
+
+    {
+      "id": "gecis_sonrasi_ip",
+      "name": "Diğer Operatörden Geçiş Sonrası IP / Bağlantı Sorunu",
+
+      "intent_triggers": [
+        "asil geçiş ip almadı",
+        "geçiş ip almadı",
+        "başka firmadan geçiş yaptım internet yok",
+        "geçiş sonrası bağlantı yok",
+        "geçiş yaptım internet bağlanmıyor",
+        "fiber geçiş sonrası ip yok",
+        "operatörden geçiş",
+        "başka firmaya geçiş",
+        "Diğer Operatörden Geçiş Sonrası IP / Bağlantı Sorunu",
+        "operator değişikliği",
+        "operatör geçişi",
+        "operatör değişikliği sonrası internet yok"
+      ],
+
+      "tree": {
+        "root": "node_light_question",
+
+        "nodes": {
+          "node_light_question": {
+            "type": "question",
+            "text": "Merhaba, başka bir internet sağlayıcıdan bize geçiş yaptığınız için teşekkür ederiz.\n\nGeçiş sonrası IP alınamaması genellikle şu nedenlerden kaynaklanır:\n- Port/profil henüz aktif edilmemiş olabilir\n- PPPoE kullanıcı adı/şifre eşleşmesi tamamlanmamış olabilir\n- ONT/anten ile modem eşleşmesi yapılmamış olabilir\n\nŞimdi birlikte kontrol edelim. Modeminizde hangi ışıklar yanıyor? DSL/Fiber/ONT ışığınız nasıl görünüyor?",
+            "branches": [
+              { "match": ["dsl yanmıyor"], "next": "node_dsl_check" },
+              { "match": ["pon/ont/fiber"], "next": "node_ont_question" },
+              { "match": ["internet ışığı kırmızı/pppoe sıkıntılı"], "next": "node_pppoe_question" },
+              { "default": true, "next": "node_pppoe_question" }
+            ]
+          },
+
+
+          "node_dsl_check": {
+            "type": "question",
+            "text": "DSL ışığı yanmıyorsa hattınız henüz aktif edilmemiş olabilir veya port tanımı geçmemiştir.\n\n1) Modem–priz arasındaki kabloyu yeniden takın.\n2) Splitter varsa kaldırıp direkt duvardan deneyin.\n3) Geçiş işleminin aktiflik süresi bazen 5–30 dakika sürebilir.DSL ışığı şu anda yanıp sabitlendi mi?",
+            "branches": [
+              { "match": ["evet"], "next": "node_pppoe_question" },
+              { "match": ["hayır"], "next": "node_need_technician" },
+              { "default": true, "next": "node_need_technician" }
+            ]
+          },
+          "node_ont_question": {
+            "type": "question",
+            "text": "Fiber/ONT cihazınızda sinyal durumunu kontrol edelim:\n- **PON ışığı sabit yeşil**: Sinyal geliyor.\n- **LOS kırmızı**: Hat sinyali gelmiyor.\n- **LAN ışığı kapalı**: Modem ile ONT iletişimi yok.ONT üzerinde PON ışığı ne durumda?",
+            "branches": [
+              { "match": ["yeşil"], "next": "node_pppoe_question" },
+              { "match": ["kırmızı"], "next": "node_need_technician" },
+              { "match": ["kapalı"], "next": "node_lan_issue" },
+              { "default": true, "next": "node_pppoe_question" }
+            ]
+          },
+
+          "node_lan_issue": {
+            "type": "question",
+            "text": "ONT üzerindeki LAN ışığı kapalıysa modem ile ONT arasında bağlantı yoktur.\n\n1) Ethernet kablosunu çıkarıp yeniden takın.\n2) ONT üzerindeki 1 numaralı porta takılı olduğundan emin olun.\n3) Modemi yeniden başlatın.Bu durumda port/profil eşleşmesi tamamlanmamış, hat sinyali gelmiyor veya ONT/anten bağlantısında fiziksel bir sorun olabilir. Arıza kaydı açmak istiyor musunuz?",
+            "branches": [
+              { "match": ["Evet"], "next": "node_saha_open_ariza_kaydi_by_input" },
+              { "match": ["Hayır"], "next": "node_saha_not_need" },
+              { "default": true, "next": "node_saha_not_need" }
+            ]
+
+          },
+
+
+
+          "node_pppoe_question": {
+            "type": "question",
+            "text": "IP alınamaması genellikle PPPoE kullanıcı adı/şifre tanımlamasının eksik olmasından kaynaklanır.\n\nLütfen modem arayüzüne girip PPPoE kullanıcı adı ve şifresinin doğru girildiğini kontrol edin.Modeminizde PPPoE kullanıcı adı/şifresini yeniden girdiniz mi?",
+            "branches": [
+              { "match": ["evet"], "next": "node_after_sync" },
+              { "match": ["hayır"], "next": "node_need_credentials" },
+              { "default": true, "next": "node_after_sync" }
+            ]
+          },
+
+
+          "node_after_sync": {
+            "type": "question",
+            "text": "Bilgiler doğru ise port/profil eşleşmesi henüz tamamlanmamış olabilir. Bu geçiş sürecinde yaygın görülen bir durumdur.\n\nŞimdi hattınızı sistemden yeniden senkronize ediyorum.Modemi yeniden başlatıp tekrar denediğinizde internet ışığı geldi mi?",
+            "branches": [
+              { "match": ["evet"], "next": "final_ip_ok" },
+              { "match": ["hayır"], "next": "node_need_technician" },
+              { "default": true, "next": "node_need_technician" }
+            ]
+          },
+          "node_need_credentials": {
+            "type": "question",
+            "text": "Geçiş sonrası size özel PPPoE kullanıcı adı ve şifre gereklidir. Abone numaranızı iletirseniz hemen kontrol edip gönderebilirim.Abone numaranızı girer misiniz?",
+            "allow_free_input": true,
+            "next": "node_ppp_check"
+          },
+          "node_need_technician": {
+            "type": "question",
+            "text": "Bu durumda port/profil eşleşmesi tamamlanmamış, hat sinyali gelmiyor veya ONT/anten bağlantısında fiziksel bir sorun olabilir. Saha ekibi yönlendirilmesi gerekir.Arıza kaydı açmak ister misiniz?",
+            "branches": [
+              { "match": ["Evet"], "next": "node_saha_open_ariza_kaydi_by_input" },
+              { "match": ["Hayır"], "next": "node_saha_not_need" },
+              { "default": true, "next": "node_saha_not_need" }
+            ]
+          },
+
+          "node_saha_open_ariza_kaydi_by_input": {
+            "type": "question",
+            "text": "Arıza kaydınızı en doğru şekilde oluşturabilmem için lütfen yaşadığınız problemi detaylıca yazar mısınız?",
+            "allow_free_input": true,
+            "next": "node_saha_ariza_check"
+          },
+
+          "node_saha_ariza_check": {
+            "type": "action",
+            "auto_next": true,
+            "action": "check_saha_ariza_session",
+            "text": "Arıza kaydınızı oluşturuyorum...",
+            "next_map": {
+              "ticked_created": "final_saha_ticked_creation_success",
+              "ticked_not_created": "final_saha_ticked_creation_failed"
+            }
+          },
+          "node_ppp_check": {
+            "type": "action",
+            "auto_next": true,
+            "action": "check_ppp_session",
+            "text": "Abonelik bilgilerinizi kontrol ediyorum...",
+            "next_map": {
+              "online": "final_ppp_online",
+              "offline": "final_ppp_offline",
+              "not_found": "final_ppp_unknown_user"
+            }
+          },
+
+          "final_saha_ticked_creation_success": {
+            "type": "final",
+            "text": "Talebiniz üzere arıza kaydınızı oluşturdum.Oluşturulan arıza kaydınız bu şekildedir: "
+          },
+          "final_saha_ticked_creation_failed": {
+            "type": "final",
+            "text": "Arıza kaydı oluşturulurken beklenmeyen bir hata oluştu.Lütfen daha sonra tekrar deneyiniz."
+          },
+          "node_saha_not_need": {
+            "type": "final",
+            "text": "Değerli müşterimiz,talebiniz üzerine arıza kaydı oluşturulmamıştır."
+          },
+          "final_ppp_online": {
+            "type": "final",
+            "text": "Görünen o ki PPP oturumunuz aktif. İnternet ışığı yanmıyorsa modem üzerindeki DSL/ONT tarafında bir sorun olabilir veya kullanıcı adınızı veya şifrenizi yanlış giriyor olabilirsiniz.Lütfen kullanıcı adınızı ve şifrenizi bu şekilde giriniz: "
+          },
+          "final_ppp_offline": {
+            "type": "final",
+            "text": "Görünen o ki PPP oturumunuz olusturulmamış. PPP oturumu oluşturduktan sonra lütfen tekrar deneyiniz."
+          },
+          "final_ppp_unknown_user": {
+            "type": "final",
+            "text": "Bu abone numarasına ait kayıt bulunamadığı için bu işlemi gerçekleştirmek için yetkiniz bulunmamaktadır."
+          },
+          "final_ip_ok": {
+            "type": "final",
+            "text": "Harika! Geçiş sonrası profil eşleşmesi tamamlanmış ve IP alınmış görünüyor. İnternet bağlantınız aktif."
+          }
+        }
+      }
+    },
+
+    {
+      "id": "site_odeme_sistemi",
+      "name": "Web Sitesi / Online Ödeme Sistemi Hataları",
+
+      "intent_triggers": [
+        "online ödeme yapamıyorum",
+        "ödeme yapamıyorum",
+        "site açılmıyor",
+        "ödeme ekranı gelmiyor",
+        "ödeme yap butonu çalışmıyor",
+        "faturayı online ödeyemiyorum",
+        "web sitesi hata veriyor",
+        "ödeme sayfası açılmıyor",
+        "ödeme geçmiyor",
+        "Web Sitesi / Online Ödeme Sistemi Hataları",
+        "ödeme başarısız"
+      ],
+
+      "tree": {
+        "root": "node_site_open_question",
+
+        "nodes": {
+
+          "node_site_open_question": {
+            "type": "question",
+            "text": "online ödeme ekranında yaşadığınız problem için üzgünüz. Şimdi sorunun hangi taraftan kaynaklandığını birlikte tespit edelim.Ödeme sayfası hiç açılmıyor mu, yoksa açılıyor ama ödeme tamamlanmıyor mu?",
+            "branches": [
+              { "match": ["site açılmıyor"], "next": "node_site_after_test" },
+              { "match": ["ödeme olmuyor/ödeme tamamlanmıyor/ödeme butonu çalışmıyor"], "next": "node_payment_after_test" },
+              { "default": true, "next": "node_payment_after_test" }
+            ]
+          },
+
+          "node_site_after_test": {
+            "type": "question",
+            "text": "Site hiç açılmıyorsa tarayıcı, DNS veya cihaz önbelleği kaynaklı olabilir.\n\nLütfen:\n1) Farklı bir tarayıcı ile deneyin (Chrome, Safari, Firefox).\n2) Gizli sekmede açmayı deneyin.\n3) Modem kapatıp açtıktan sonra tekrar deneyin.\n4) Telefon mobil veride açılıyor mu kontrol edin.Bu adımları denedikten sonra ödeme sayfası açıldı mı?",
+            "branches": [
+              { "match": ["evet"], "next": "final_fixed" },
+              { "match": ["hayır"], "next": "node_backend_issue" },
+              { "default": true, "next": "node_backend_issue" }
+            ]
+          },
+          "node_payment_after_test": {
+            "type": "question",
+            "text": "Ödeme sayfası açılıyor fakat ödeme geçmiyorsa birkaç ihtimal vardır:\n- Banka 3D Secure doğrulaması başarısız\n- Kart internet alışverişine kapalı\n- Ödeme altyapısında (iyzico/paytr vb.) anlık hata\n- Tarayıcı blokesi\n\nŞunları deneyelim:\n1) Kartın internet alışverişine açık olduğundan emin olun.\n2) Farklı kart veya farklı bankayla deneyin.\n3) Farklı tarayıcı kullanın.\n4) Mobil veri üzerinden ödeme deneyin.Bu adımlardan sonra ödeme işlemi başarılı oldu mu?",
+            "branches": [
+              { "match": ["evet"], "next": "final_payment_success" },
+              { "match": ["hayır"], "next": "node_bank_or_gateway" },
+              { "default": true, "next": "node_bank_or_gateway" }
+            ]
+          },
+          "node_backend_issue": {
+            "type": "question",
+            "text": "Sorun büyük ihtimalle sistem taraflı görünüyor. Konuyu teknik ekibe iletebilmem ve sorununuzun en kısa sürede çözülebilmesi için talep açmak ister misiniz?",
+            "branches": [
+              { "match": ["Evet"], "next": "node_saha_open_ariza_kaydi_by_input" },
+              { "match": ["Hayır"], "next": "node_saha_not_need" },
+              { "default": true, "next": "node_saha_not_need" }
+            ]
+          },
+          "node_saha_open_ariza_kaydi_by_input": {
+            "type": "question",
+            "text": "Talebinizi en doğru şekilde oluşturabilmem için lütfen yaşadığınız problemi detaylıca yazar mısınız?",
+            "allow_free_input": true,
+            "next": "node_saha_ariza_check"
+          },
+
+          "node_saha_ariza_check": {
+            "type": "action",
+            "auto_next": true,
+            "action": "check_saha_ariza_session",
+            "text": "Talebinizi oluşturuyorum...",
+            "next_map": {
+              "ticked_created": "final_saha_ticked_creation_success",
+              "ticked_not_created": "final_saha_ticked_creation_failed"
+            }
+          },
+          "node_bank_or_gateway": {
+            "type": "question",
+            "text": "Ödeme hâlâ gerçekleşmiyorsa sorun banka doğrulaması veya yanlış ödeme linki kaynaklı olabilir.\n\nSize yardımcı olmam için abone numaranızı iletirseniz ödeme yapacağınız doğru ödeme linkini size iletebilirim.",
+            "allow_free_input": true,
+            "next": "node_payment_link_check"
+          },
+          "node_payment_link_check": {
+            "type": "action",
+            "auto_next": true,
+            "action": "check_payment_link_session",
+            "text": "Abonelik bilgilerinizi kontrol ediyorum...",
+            "next_map": {
+              "link_found": "final_payment_link_found",
+              "link_not_found": "final_payment_link_not_found",
+              "link_unknown_user": "final_payment_link_unknown_user"
+            }
+          },
+
+
+          "final_fixed": {
+            "type": "final",
+            "text": "Harika! Ödeme sayfası artık açılıyor görünüyor. Dilerseniz işlemi şimdi tamamlayabilirsiniz."
+          },
+
+          "final_backend_issue": {
+            "type": "final",
+            "text": "Sorun büyük ihtimalle sistem taraflı görünüyor. Konuyu teknik ekibe iletiyorum. Çok kısa süre içinde düzelecektir."
+          },
+          "final_saha_ticked_creation_success": {
+            "type": "final",
+            "text": "Değerli müşterimiz,yaşadığınız problemi teknik ekibe ilettim.Oluşturulan teknik talebiniz bu şekildedir: "
+          },
+          "final_saha_ticked_creation_failed": {
+            "type": "final",
+            "text": "Değerli müşterimiz,yaşadığınız problemi teknik ekibe iletirken beklenmeyen bir hata oluştu.Lütfen daha sonra tekrar deneyiniz."
+          },
+          "node_saha_not_need": {
+            "type": "final",
+            "text": "Değerli müşterimiz,isteğiniz üzerine destek talebiniz oluşturulmamıştır."
+          },
+          "final_payment_success": {
+            "type": "final",
+            "text": "Ödeme başarıyla tamamlanmış! İşleminiz alınmıştır, teşekkür ederiz."
+          },
+          "final_payment_link_found": {
+            "type": "final",
+            "text": "Görünen o ki aktif bir ödeme linkiniz var.Bu ödeme linkine tıklayarak ödemenizi yapabilirsiniz: "
+          },
+          "final_payment_link_not_found": {
+            "type": "final",
+            "text": "Görünen o ki ödeme linkinize erişim sağlanamıyor. Müşteri hizmetleri ile iletişime geçiniz."
+          },
+          "final_payment_link_unknown_user": {
+            "type": "final",
+            "text": "Bu abone numarasına ait kayıt bulunamadığı için bu işlemi gerçekleştirmek için yetkiniz bulunmamaktadır."
+          },
+          "final_waiting_error": {
+            "type": "final",
+            "text": "Hata mesajını ilettiğinizde bankanız veya ödeme sağlayıcısı üzerinde kontrol edip net çözümü sağlayacağım."
+          }
+        }
+      }
+    },
+
+    {
+      "id": "nakil_adres_degisim",
+      "name": "Nakil / Adres Değişikliği",
+
+      "intent_triggers": [
+        "nakil",
+        "adres değişikliği",
+        "internetimi taşıyacağım",
+        "Nakil / Adres Değişikliği Talebi",
+        "ev değiştirdim internet",
+        "yeni adrese kurulum istiyorum",
+        "taşındım internet yok",
+        "nakil talebi açmak istiyorum",
+        "aboneliği taşımak istiyorum"
+      ],
+
+      "tree": {
+        "root": "node_request_address",
+
+        "nodes": {
+          "node_request_address": {
+            "type": "question",
+            "text": "Yeni adresiniz hayırlı olsun! İnternetinizi yeni adrese taşımanız için nakil sürecini başlatabiliriz.\n\nÖncelikle yeni adres bilgilerinizi kontrol etmem gerekiyor.İşleme devam etmek istiyor musunuz?",
+            "branches": [
+              { "match": ["Evet"], "next": "node_saha_open_ariza_kaydi_by_input" },
+              { "match": ["Hayır"], "next": "node_saha_not_need" },
+              { "default": true, "next": "node_saha_not_need" }
+            ]
+          },
+          "node_saha_open_ariza_kaydi_by_input": {
+            "type": "question",
+            "text": "Nakil süreci talebinizi en doğru şekilde oluşturabilmem için lütfen yeni adresinizi il,ilçe,mahalle, cadde/sokak, bina numarası ve kapı numarasıyla birlikte paylaşabilir misiniz?",
+            "allow_free_input": true,
+            "next": "node_saha_ariza_check"
+          },
+
+          "node_saha_ariza_check": {
+            "type": "action",
+            "auto_next": true,
+            "action": "check_saha_ariza_session",
+            "text": "Nakil süreci talebinizi oluşturuyorum...",
+            "next_map": {
+              "ticked_created": "final_saha_ticked_creation_success",
+              "ticked_not_created": "final_saha_ticked_creation_failed"
+            }
+          },
+
+
+          "final_saha_ticked_creation_success": {
+            "type": "final",
+            "text": "Talebiniz üzere nakil süreci talebinizi oluşturdum.Oluşturulan nakil süreci talebiniz bu şekildedir: "
+          },
+          "final_saha_ticked_creation_failed": {
+            "type": "final",
+            "text": "Nakil süreci talebinizi oluştururken beklenmeyen bir hata oluştu.Lütfen daha sonra tekrar deneyiniz."
+          },
+          "node_saha_not_need": {
+            "type": "final",
+            "text": "Değerli müşterimiz,isteğiniz üzerine nakil süreci talebiniz oluşturulmamıştır."
+          }
+        }
+      }
+    },
+    {
+      "id": "paket_yetersiz_hiz_artis",
+      "name": "Paket Yetersizliği / Hız Yükseltme Talebi",
+
+      "intent_triggers": [
+        "hızımı yükseltmek istiyorum",
+        "paket hızı arttırma",
+        "paketimi yükseltmek istiyorum",
+        "paket hızımı",
+        "daha hızlı paket istiyorum",
+        "mevcut hızım yetmiyor",
+        "hız artırma",
+        "paketim yetmiyor",
+        "Paket Yetersizliği / Hız Yükseltme Talebi / Tarife Değişikliği",
+        "hızım yetersiz",
+        "hız yetersiz",
+        "hızımı arttırmak istiyorum",
+        "internet hızımı arttırmak",
+         "internet hızımı yükseltmek",
+        "paket yükseltme",
+        "internetim yavaş daha hızlı istiyorum"
+      ],
+
+      "tree": {
+        "root": "node_request_address_or_id",
+
+        "nodes": {
+          "node_request_address_or_id": {
+            "type": "question",
+            "text": "Mevcut hızınızın kullanımınıza yetmediğini belirtmişsiniz. Size daha uygun bir hız belirleyebilmem için hattınızın teknik kapasitesini kontrol etmem gerekiyor.Size daha net bilgi verebilmem için abone numaranızı paylaşabilir misiniz?",
+            "allow_free_input": true,
+            "next": "node_tarife_hiz_check"
+          },
+          "node_tarife_hiz_check": {
+            "type": "action",
+            "auto_next": true,
+            "action": "check_tarife_hiz_session",
+            "text": "Hız değerlerinizi kontrol ediyorum...",
+            "next_map": {
+              "hiz_found": "node_line_capacity_question",
+              "hiz_not_found": "final_hiz_not_found",
+              "user_not_found": "final_hiz_unknown_user"
+            }
+          },
+          "node_line_capacity_question": {
+            "type": "question",
+            "text": "Bu hızlar size yetersiz geliyorsa paketinizi yükseltebilirsiniz.Paketinizi yükseltmek istiyor musunuz?",
+            "branches": [
+              { "match": ["Evet"], "next": "node_get_plans_check" },
+              { "match": ["Hayır"], "next": "final_user_yukseltmek_istemiyor" }
+            ]
+          },
+          "node_get_plans_check": {
+            "type": "action",
+            "auto_next": true,
+            "action": "check_available_plans_session",
+            "text": "Bilgilerinizi kontrol ediyorum...",
+            "next_map": {
+              "paket_plans_found": "node_plans_found_question",
+              "paket_plans_not_found": "final_plan_data_not_found",
+              "error_connection": "final_api_connection_problem"
+            }
+          },
+          "node_plans_found_question": {
+            "type": "question",
+            "text": "Altyapınıza uygun paketleri aşağıda görebilirsiniz. Hangisini seçmek istersiniz?"
+
+          },
+          "final_upgrade_plan": {
+            "type": "final",
+            "text": "Değerli müşterimiz, seçtiğiniz paket için işlem başlatıldı. Kısa süre içinde sizinle iletişime geçilecektir."
+
+          },
+          "final_change_success": {
+            "type": "final",
+            "text": "Değerli müşterimiz, seçtiğiniz paket için işlem başlatıldı. Kısa süre içinde sizinle iletişime geçilecektir."
+          },
+          "final_api_connection_problem": {
+            "type": "final",
+            "text": "Değerli müşterimiz, bilgilerinizi kontrol ederken bir hata oluştu.Lütfen daha sonra tekrar deneyiniz."
+          },
+          "final_change_fail": {
+            "type": "final",
+            "text": "Değerli müşterimiz,paket değişikliği işleminde beklenmeyen bir hata oluştu.Lütfen daha sonra tekrar deneyiniz."
+          },
+
+          "final_plan_data_not_found": {
+            "type": "final",
+            "text": "Değerli müşterimiz,geçiş yapabileceğiniz mevcut paketinizden farklı bir paket bulunamamıştır."
+          },
+          "final_hiz_unknown_user": {
+            "type": "final",
+            "text": "Bu abone numarasına ait kayıt bulunamadığı için bu işlemi gerçekleştirmek için yetkiniz bulunmamaktadır."
+          },
+          "final_hiz_not_found": {
+            "type": "final",
+            "text": "Değerli müşterimiz,hız değerleriniz sistemden alınamamıştır.Lütfen teknik destek hizmetiyle iletişime geçiniz."
+          },
+          "final_user_yukseltmek_istemiyor": {
+            "type": "final",
+            "text": "Değerli müşterimiz,paket yükseltme işleminiz talebiniz üzerine iptal edilmiştir. "
+          }
+        }
+      }
+    }
+  ]
+}
